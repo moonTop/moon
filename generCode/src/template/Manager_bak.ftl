@@ -1,0 +1,150 @@
+package ${packageName};
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.dths.web.servlet.business.baseManager.BaseManager;
+import com.dths.web.servlet.utils.JsonUtil;
+import com.dths.web.servlet.utils.PageParam;
+import com.dths.web.servlet.utils.StringUtil;
+
+/** 
+ * @ClassName: Co${beanName}Manager 
+ * @Description: 
+ 
+ * @author ${authorOriginally}
+ * @date ${currentTime}
+ */ 
+public class Co${beanName}Manager extends BaseManager {
+	
+	private static final long serialVersionUID = 1L;
+	@Override
+	public void doMethod(String key) throws Exception {
+		if (!StringUtils.isEmpty(key)) {
+			if ("add${beanName}".equals(key)) {
+				add${beanName}(request, response);
+			} else if ("delete${beanName}".equals(key)) {
+				delete${beanName}(request, response);
+			} else if ("edit${beanName}".equals(key)) {
+				update${beanName}(request, response);
+			} else if ("query${beanName}s".equals(key)) {
+				query${beanName}s(request, response);
+			} else if("query${beanName}ByID".equals(key)){
+				query${beanName}ByID(request, response);
+			}
+		}
+	}
+
+	/**
+	 * @Title: add${beanName}
+	 * @Class: Co${beanName}Manager.java
+	 * @Description:新增
+	 *@param request
+	 *@param response
+	 *@throws Exception
+	 * @AuthorOriginally ${authorOriginally}
+	 * @date  ${currentTime}
+	 */
+	public void add${beanName}(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	    String name = request.getParameter("NAME");此处需要修改，根据表的唯一键判断是否允许添加，如果没有唯一键约束，则删除此段代码。
+		String sql = "SELECT *  FROM ${tableName} WHERE ISDELETE=0 AND NAME='"+name+"'";//此处需要修改
+		if (dbUtils.ifExists(sql, null)) {
+			json.put("result", "exists");
+			pw = response.getWriter();
+			pw.write(json.toString());
+			pw.flush();
+			pw.close();
+			return;
+		}
+		int result = 0;
+		result = dbUtils.save2("${tableName}", StringUtil.mapSSToMapSO(request.getParameterMap()));
+		json.put("result", String.valueOf(result));
+	 }
+	
+	/**
+	 * @Title: update${beanName}
+	 * @Class: Co${beanName}Manager.java
+	 * @Description:更新
+	 *@param request
+	 *@param response
+	 *@throws Exception
+	 * @AuthorOriginally ${authorOriginally}
+	 * @date  ${currentTime}
+	 */
+	public void update${beanName}(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String ID = request.getParameter("ID");
+		int result=0;
+		result = dbUtils.update("${tableName}", StringUtil.mapSSToMapSO(request.getParameterMap()), Long.parseLong(ID));
+		json.put("result", String.valueOf(result));
+
+	 }
+	
+	/**
+	 * @Title: delete${beanName}
+	 * @Class: Co${beanName}Manager.java
+	 * @Description:删除
+	 *@param request
+	 *@param response
+	 *@throws Exception
+	 * @AuthorOriginally ${authorOriginally}
+	 * @date  ${currentTime}
+	 */
+	public void delete${beanName}(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		String ID_REAL = request.getParameter("ID");
+		int result=0;
+		result = dbUtils.delete(operationUserName, "${tableName}", Long.parseLong(ID_REAL));
+		json.put("result", String.valueOf(result));
+
+	 }
+	
+	/**
+	 * @Title: query${beanName}ByID
+	 * @Class: Co${beanName}Manager.java
+	 * @Description:id查询
+	 *@param request
+	 *@param response
+	 *@throws Exception
+	 * @AuthorOriginally ${authorOriginally}
+	 * @date  ${currentTime}
+	 */
+	public void query${beanName}ByID(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String ID = request.getParameter("ID");
+		HashMap<String,String> mp=null;
+		String querySql="SELECT * FROM ${tableName} WHERE ISDELETE=0 AND ID='"+ID+"'";
+		mp = (HashMap<String, String>) dbUtils.get( querySql);
+		if (mp.size()>0)
+			json = JsonUtil.getJsonObject(mp);
+	}
+	
+	
+	/**
+	 * @Title: query${beanName}s
+	 * @Class: Co${beanName}Manager.java
+	 * @Description:分页查询
+	 *@param request
+	 *@param response
+	 *@throws Exception
+	 * @AuthorOriginally ${authorOriginally}
+	 * @date  ${currentTime}
+	 */
+	public void query${beanName}s(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String queryWord = request.getParameter("queryWord");
+		String querySql="SELECT * FROM ${tableName} WHERE ISDELETE=0 ";
+		if(queryWord!=null&&!"".equals(queryWord))
+			  querySql=querySql+"and ( "+
+			<#list fields as field>
+			<#if field.isPK?index_of("true")==-1>
+			  "${field.fieldName} like '%"+queryWord+"%'"<#if field_has_next>+" or "+</#if>
+		    </#if>
+			</#list>
+			+")";
+		json=dbUtils.queryByPage(request, querySql,null);
+	}
+}
