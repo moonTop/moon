@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:g="http://www.jboss.org/drools/flow/gpd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <itemDefinition id="_isWithdrawItem" structureRef="Boolean" />
+
+  <itemDefinition id="_3-isWithdrawItem" structureRef="Boolean" />
+
+  <itemDefinition id="_5-isWithdrawItem" structureRef="Boolean" />
+
+  <itemDefinition id="_7-isWithdrawItem" structureRef="Boolean" />
+
+  <itemDefinition id="_9-isWithdrawItem" structureRef="Boolean" />
+
+  <itemDefinition id="_10-isWithdrawItem" structureRef="Boolean" />
+
+  <process processType="Private" isExecutable="true" id="LoanProcess" name="小额贷款申请单" tns:packageName="defaultPackage" >
+
+    <!-- process variables -->
+    <property id="isWithdraw" itemSubjectRef="_isWithdrawItem"/>
+
+    <laneSet>
+      <lane name="swimlane1" >
+        <flowNodeRef>_3</flowNodeRef>
+      </lane>
+    </laneSet>
+    <!-- nodes -->
+    <exclusiveGateway id="_34" name="Gateway" gatewayDirection="Diverging" />
+    <startEvent id="_1" name="Start" />
+    <exclusiveGateway id="_35" name="Gateway" gatewayDirection="Diverging" />
+    <userTask id="_3" name="客户经理申请" >
+      <ioSpecification>
+        <dataInput id="_3_CommentInput" name="Comment" />
+        <dataInput id="_3_SkippableInput" name="Skippable" />
+        <dataInput id="_3_LocaleInput" name="Locale" />
+        <dataInput id="_3_TaskNameInput" name="TaskName" />
+        <dataInput id="_3_GroupIdInput" name="GroupId" />
+        <dataInput id="_3_PriorityInput" name="Priority" />
+        <inputSet>
+          <dataInputRefs>_3_CommentInput</dataInputRefs>
+          <dataInputRefs>_3_SkippableInput</dataInputRefs>
+          <dataInputRefs>_3_LocaleInput</dataInputRefs>
+          <dataInputRefs>_3_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_3_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_3_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_3_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_3_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_3_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">true</from>
+          <to xsi:type="tFormalExpression">_3_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_3_LocaleInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">en-UK</from>
+          <to xsi:type="tFormalExpression">_3_LocaleInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_3_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">客户经理申请</from>
+          <to xsi:type="tFormalExpression">_3_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_3_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">kehujingli</from>
+          <to xsi:type="tFormalExpression">_3_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_3_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_3_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression></formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <userTask id="_5" name="业务主管审批" >
+      <ioSpecification>
+        <dataInput id="_5_CommentInput" name="Comment" />
+        <dataInput id="_5_SkippableInput" name="Skippable" />
+        <dataInput id="_5_LocaleInput" name="Locale" />
+        <dataInput id="_5_TaskNameInput" name="TaskName" />
+        <dataInput id="_5_GroupIdInput" name="GroupId" />
+        <dataInput id="_5_PriorityInput" name="Priority" />
+        <dataOutput id="_5_isWithdrawOutput" name="isWithdraw" />
+        <inputSet>
+          <dataInputRefs>_5_CommentInput</dataInputRefs>
+          <dataInputRefs>_5_SkippableInput</dataInputRefs>
+          <dataInputRefs>_5_LocaleInput</dataInputRefs>
+          <dataInputRefs>_5_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_5_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_5_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_5_isWithdrawOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_5_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_5_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_5_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">true</from>
+          <to xsi:type="tFormalExpression">_5_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_5_LocaleInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">en-UK</from>
+          <to xsi:type="tFormalExpression">_5_LocaleInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_5_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">业务主管审批</from>
+          <to xsi:type="tFormalExpression">_5_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_5_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">yewuzhuguan</from>
+          <to xsi:type="tFormalExpression">_5_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_5_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_5_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_5_isWithdrawOutput</sourceRef>
+        <targetRef>isWithdraw</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression></formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <userTask id="_7" name="风险官审批" >
+      <ioSpecification>
+        <dataInput id="_7_CommentInput" name="Comment" />
+        <dataInput id="_7_SkippableInput" name="Skippable" />
+        <dataInput id="_7_LocaleInput" name="Locale" />
+        <dataInput id="_7_TaskNameInput" name="TaskName" />
+        <dataInput id="_7_GroupIdInput" name="GroupId" />
+        <dataInput id="_7_PriorityInput" name="Priority" />
+        <dataOutput id="_7_isWithdrawOutput" name="isWithdraw" />
+        <inputSet>
+          <dataInputRefs>_7_CommentInput</dataInputRefs>
+          <dataInputRefs>_7_SkippableInput</dataInputRefs>
+          <dataInputRefs>_7_LocaleInput</dataInputRefs>
+          <dataInputRefs>_7_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_7_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_7_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_7_isWithdrawOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_7_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_7_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_7_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">true</from>
+          <to xsi:type="tFormalExpression">_7_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_7_LocaleInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">en-UK</from>
+          <to xsi:type="tFormalExpression">_7_LocaleInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_7_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">风险官审批</from>
+          <to xsi:type="tFormalExpression">_7_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_7_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">fengxianguan</from>
+          <to xsi:type="tFormalExpression">_7_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_7_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_7_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_7_isWithdrawOutput</sourceRef>
+        <targetRef>isWithdraw</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression></formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <userTask id="_9" name="总经理审批" >
+      <ioSpecification>
+        <dataInput id="_9_CommentInput" name="Comment" />
+        <dataInput id="_9_SkippableInput" name="Skippable" />
+        <dataInput id="_9_LocaleInput" name="Locale" />
+        <dataInput id="_9_TaskNameInput" name="TaskName" />
+        <dataInput id="_9_GroupIdInput" name="GroupId" />
+        <dataInput id="_9_PriorityInput" name="Priority" />
+        <dataOutput id="_9_isWithdrawOutput" name="isWithdraw" />
+        <inputSet>
+          <dataInputRefs>_9_CommentInput</dataInputRefs>
+          <dataInputRefs>_9_SkippableInput</dataInputRefs>
+          <dataInputRefs>_9_LocaleInput</dataInputRefs>
+          <dataInputRefs>_9_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_9_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_9_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_9_isWithdrawOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_9_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_9_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_9_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">true</from>
+          <to xsi:type="tFormalExpression">_9_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_9_LocaleInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">en-UK</from>
+          <to xsi:type="tFormalExpression">_9_LocaleInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_9_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">总经理审批</from>
+          <to xsi:type="tFormalExpression">_9_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_9_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">zongjingli</from>
+          <to xsi:type="tFormalExpression">_9_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_9_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_9_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_9_isWithdrawOutput</sourceRef>
+        <targetRef>isWithdraw</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression></formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <exclusiveGateway id="_27" name="Gateway" gatewayDirection="Converging" />
+    <userTask id="_10" name="财务主管放款" >
+      <ioSpecification>
+        <dataInput id="_10_CommentInput" name="Comment" />
+        <dataInput id="_10_SkippableInput" name="Skippable" />
+        <dataInput id="_10_LocaleInput" name="Locale" />
+        <dataInput id="_10_TaskNameInput" name="TaskName" />
+        <dataInput id="_10_GroupIdInput" name="GroupId" />
+        <dataInput id="_10_PriorityInput" name="Priority" />
+        <inputSet>
+          <dataInputRefs>_10_CommentInput</dataInputRefs>
+          <dataInputRefs>_10_SkippableInput</dataInputRefs>
+          <dataInputRefs>_10_LocaleInput</dataInputRefs>
+          <dataInputRefs>_10_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_10_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_10_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_10_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_10_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">true</from>
+          <to xsi:type="tFormalExpression">_10_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_LocaleInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">en-UK</from>
+          <to xsi:type="tFormalExpression">_10_LocaleInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">财务主管放款</from>
+          <to xsi:type="tFormalExpression">_10_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">caiwuzhuguan</from>
+          <to xsi:type="tFormalExpression">_10_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_10_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression></formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <exclusiveGateway id="_28" name="Gateway" gatewayDirection="Diverging" />
+    <endEvent id="_15" name="End" >
+        <terminateEventDefinition />
+    </endEvent>
+
+    <!-- connections -->
+    <sequenceFlow id="_9-_34" sourceRef="_9" targetRef="_34" />
+    <sequenceFlow id="_7-_35" sourceRef="_7" targetRef="_35" />
+    <sequenceFlow id="_27-_3" sourceRef="_27" targetRef="_3" />
+    <sequenceFlow id="_3-_5" sourceRef="_3" targetRef="_5" />
+    <sequenceFlow id="_28-_7" sourceRef="_28" targetRef="_7" name="approve" tns:priority="1" >
+      <conditionExpression xsi:type="tFormalExpression" language="http://www.java.com/java" >return (!isWithdraw);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_35-_9" sourceRef="_35" targetRef="_9" name="approve" tns:priority="1" >
+      <conditionExpression xsi:type="tFormalExpression" language="http://www.java.com/java" >return (!isWithdraw);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_1-_27" sourceRef="_1" targetRef="_27" />
+    <sequenceFlow id="_28-_27" sourceRef="_28" targetRef="_27" name="withdraw" tns:priority="1" >
+      <conditionExpression xsi:type="tFormalExpression" language="http://www.java.com/java" >return (isWithdraw);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_35-_27" sourceRef="_35" targetRef="_27" tns:priority="1" >
+      <conditionExpression xsi:type="tFormalExpression" language="http://www.java.com/java" >return (isWithdraw);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_34-_27" sourceRef="_34" targetRef="_27" tns:priority="1" >
+      <conditionExpression xsi:type="tFormalExpression" language="http://www.java.com/java" >return (isWithdraw);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_34-_10" sourceRef="_34" targetRef="_10" name="approve" tns:priority="1" >
+      <conditionExpression xsi:type="tFormalExpression" language="http://www.java.com/java" >return (!isWithdraw);</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_5-_28" sourceRef="_5" targetRef="_28" />
+    <sequenceFlow id="_10-_15" sourceRef="_10" targetRef="_15" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="LoanProcess" >
+      <bpmndi:BPMNShape bpmnElement="_34" >
+        <dc:Bounds x="161" y="307" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_1" >
+        <dc:Bounds x="54" y="37" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_35" >
+        <dc:Bounds x="207" y="205" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_3" >
+        <dc:Bounds x="329" y="39" width="117" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_5" >
+        <dc:Bounds x="331" y="121" width="118" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_7" >
+        <dc:Bounds x="332" y="206" width="112" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_9" >
+        <dc:Bounds x="331" y="307" width="115" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_27" >
+        <dc:Bounds x="166" y="38" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_10" >
+        <dc:Bounds x="332" y="413" width="118" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_28" >
+        <dc:Bounds x="235" y="121" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_15" >
+        <dc:Bounds x="58" y="416" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_9-_34" >
+        <di:waypoint x="388" y="331" />
+        <di:waypoint x="185" y="331" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7-_35" >
+        <di:waypoint x="388" y="230" />
+        <di:waypoint x="231" y="229" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_27-_3" >
+        <di:waypoint x="190" y="62" />
+        <di:waypoint x="387" y="63" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_3-_5" >
+        <di:waypoint x="387" y="63" />
+        <di:waypoint x="390" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_28-_7" >
+        <di:waypoint x="259" y="145" />
+        <di:waypoint x="388" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_35-_9" >
+        <di:waypoint x="231" y="229" />
+        <di:waypoint x="388" y="331" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_1-_27" >
+        <di:waypoint x="78" y="61" />
+        <di:waypoint x="190" y="62" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_28-_27" >
+        <di:waypoint x="259" y="145" />
+        <di:waypoint x="190" y="62" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_35-_27" >
+        <di:waypoint x="231" y="229" />
+        <di:waypoint x="190" y="62" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_34-_27" >
+        <di:waypoint x="185" y="331" />
+        <di:waypoint x="190" y="62" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_34-_10" >
+        <di:waypoint x="185" y="331" />
+        <di:waypoint x="391" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5-_28" >
+        <di:waypoint x="390" y="145" />
+        <di:waypoint x="259" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10-_15" >
+        <di:waypoint x="391" y="437" />
+        <di:waypoint x="82" y="440" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>

@@ -1,0 +1,93 @@
+package com.yzframework.model;
+
+import com.yzframework.base.Model;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Set;
+/**
+ * 组织机构管理
+ * @author yuzhuo
+ */
+public class Morg extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
+    public Morg(){}
+
+    /// 自定义区域 开始
+
+    /// 自定义区域 结束
+
+    /// 工具生成区域 开始
+    private String orgno;
+    public String getOrgno() {
+        return orgno;
+    }
+    public void setOrgno(String orgno) {
+        this.firePropertyChange("orgno");
+        this.orgno = orgno;
+    }
+
+    private String orgname;
+    public String getOrgname() {
+        return orgname;
+    }
+    public void setOrgname(String orgname) {
+        this.firePropertyChange("orgname");
+        this.orgname = orgname;
+    }
+
+    private String status;
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.firePropertyChange("status");
+        this.status = status;
+    }
+
+    private String createid;
+    public String getCreateid() {
+        return createid;
+    }
+    public void setCreateid(String createid) {
+        this.firePropertyChange("createid");
+        this.createid = createid;
+    }
+
+    private Timestamp createtime;
+    public Timestamp getCreatetime() {
+        return createtime;
+    }
+    public void setCreatetime(Timestamp createtime) {
+        this.firePropertyChange("createtime");
+        this.createtime = createtime;
+    }
+
+    private String updateid;
+    public String getUpdateid() {
+        return updateid;
+    }
+    public void setUpdateid(String updateid) {
+        this.firePropertyChange("updateid");
+        this.updateid = updateid;
+    }
+
+    private Timestamp updatetime;
+    public Timestamp getUpdatetime() {
+        return updatetime;
+    }
+    public void setUpdatetime(Timestamp updatetime) {
+        this.firePropertyChange("updatetime");
+        this.updatetime = updatetime;
+    }
+
+    private Set<Muser> musers;
+    public Set<Muser> getMusers() {
+        return musers;
+    }
+    public void setMusers(Set<Muser> musers) {
+        this.firePropertyChange("musers");
+        this.musers = musers;
+    }
+}

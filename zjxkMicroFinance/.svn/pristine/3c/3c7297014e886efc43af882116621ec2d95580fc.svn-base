@@ -1,0 +1,77 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>任务列表</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script
+	src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+</head>
+<body>
+	<div data-role="page" class="type-home">
+		<div data-role="header">
+			<a href="javascript:history.go('-1')" data-icon="arrow-l">返回</a>
+			<h1>任务列表</h1>
+		</div>
+		<div data-role="content">
+			<div class="content-primary">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#"
+							onclick="$('.div02').css('display','none');$('.div01').css('display','block');"
+							class="ui-btn-active">代办任务</a></li>
+						<li><a href="#"
+							onclick="$('.div02').css('display','block');$('.div01').css('display','none');">已办任务</a></li>
+					</ul>
+				</div>
+				<!-- /navbar -->
+			</div>
+			<!--/content-primary -->
+			<div class="ui-body ui-body-c div01">
+				<h4>王经理：您好！欢迎使用审批系统！当前有3件任务,等待您的审批！</h4>
+				<div data-role="content">
+					<div class="content-primary">
+						<ul data-role="listview">
+							<li><a href="mobileFormShow.do"  ><img src="imgs/task.jpg"
+									alt="Norway" class="ui-li-icon">Norway </a></li>
+							<li><a href="index.html"><img src="images/us.png"
+									alt="United States" class="ui-li-icon">United States </a></li>
+							<li><a href="index.html"><img src="images/us.png"
+									alt="United States" class="ui-li-icon">United States </a></li>									
+						</ul>
+					</div>
+					<!--/content-primary -->
+				</div>
+			</div>
+			<div class="ui-body ui-body-c div02" style="display: none;">
+				<h3>Default Theme Content Header</h3>
+				<p>
+					This is the default content color swatch and a preview of a <a
+						href="#" class="ui-link">link</a>.
+				</p>
+				<label for="slider1">Input slider:</label> <input type="range"
+					name="slider1" id="slider1" value="50" min="0" max="100" />
+				<fieldset data-role="controlgroup" data-type="horizontal"
+					data-role="fieldcontain">
+					<legend>Cache settings:</legend>
+					<input type="radio" name="radio-choice-a1" id="radio-choice-a1"
+						value="on" checked="checked" /> <label for="radio-choice-a1">On</label>
+					<input type="radio" name="radio-choice-a1" id="radio-choice-b1"
+						value="off" /> <label for="radio-choice-b1">Off</label>
+				</fieldset>
+				<a href="#" data-role="button" data-inline="true">Button</a>
+			</div>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" class="footer-docs" data-theme="c"></div>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	
+</script>

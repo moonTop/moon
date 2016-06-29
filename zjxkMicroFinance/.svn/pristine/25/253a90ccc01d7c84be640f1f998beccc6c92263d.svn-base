@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.yzframework.model">
+    <class name="com.yzframework.model.Mlog" table="M_LOG">
+        <comment>日志管理</comment>
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="32">
+                <comment>ID</comment>
+            </column>
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="modulename" type="java.lang.String">
+            <column name="MODULENAME" length="50">
+                <comment>模块名称</comment>
+            </column>
+        </property>
+        <property name="opstyle" type="java.lang.String">
+            <column name="OPSTYLE" length="50">
+                <comment>操作类型</comment>
+            </column>
+        </property>
+        <property name="opcontent" type="java.lang.String">
+            <column name="OPCONTENT" length="500">
+                <comment>操作内容</comment>
+            </column>
+        </property>
+        <property name="optime" type="java.sql.Timestamp">
+            <column name="OPTIME">
+                <comment>操作时间</comment>
+            </column>
+        </property>
+        <property name="opperson" type="java.lang.String">
+            <column name="OPPERSON" length="32">
+                <comment>操作员ID</comment>
+            </column>
+        </property>
+        <property name="orgno" type="java.lang.String">
+            <column name="ORGNO" length="32">
+                <comment>部门编号</comment>
+            </column>
+        </property>
+        <property name="ip" type="java.lang.String">
+            <column name="IP" length="20">
+                <comment>IP地址</comment>
+            </column>
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS" length="1">
+                <comment>状态</comment>
+            </column>
+        </property>
+        <property name="createid" type="java.lang.String">
+            <column name="CREATEID" length="32">
+                <comment>创建者ID</comment>
+            </column>
+        </property>
+        <property name="createtime" type="java.sql.Timestamp">
+            <column name="CREATETIME">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateid" type="java.lang.String">
+            <column name="UPDATEID" length="32">
+                <comment>更新者ID</comment>
+            </column>
+        </property>
+        <property name="updatetime" type="java.sql.Timestamp">
+            <column name="UPDATETIME">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

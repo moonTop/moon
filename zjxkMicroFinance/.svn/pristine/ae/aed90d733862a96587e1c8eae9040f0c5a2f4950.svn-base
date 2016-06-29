@@ -1,0 +1,236 @@
+package com.yzframework.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import com.yzframework.base.Model;
+/**
+ * 在线申请
+ * @author yuzhuo
+ */
+public class Mapply extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
+    public Mapply(){}
+
+    /// 自定义区域 开始
+
+    /// 自定义区域 结束
+
+    /// 工具生成区域 开始
+    private String id;
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.firePropertyChange("id");
+        this.id = id;
+    }
+    private String loantype;
+    public String getLoantype() {
+        return loantype;
+    }
+    public void setLoantype(String loantype) {
+        this.firePropertyChange("loantype");
+        this.loantype = loantype;
+    }
+    private String name;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.firePropertyChange("name");
+        this.name = name;
+    }
+    private String sex;
+    public String getSex() {
+        return sex;
+    }
+    public void setSex(String sex) {
+        this.firePropertyChange("sex");
+        this.sex = sex;
+    }
+    private String phone;
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.firePropertyChange("phone");
+        this.phone = phone;
+    }
+    private String email;
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.firePropertyChange("email");
+        this.email = email;
+    }
+    private BigDecimal loanamount;
+    public BigDecimal getLoanamount() {
+        return loanamount;
+    }
+    public void setLoanamount(BigDecimal loanamount) {
+        this.firePropertyChange("loanamount");
+        this.loanamount = loanamount;
+    }
+    private String unittelephone;
+    public String getUnittelephone() {
+        return unittelephone;
+    }
+    public void setUnittelephone(String unittelephone) {
+        this.firePropertyChange("unittelephone");
+        this.unittelephone = unittelephone;
+    }
+    private String companyname;
+    public String getCompanyname() {
+        return companyname;
+    }
+    public void setCompanyname(String companyname) {
+        this.firePropertyChange("companyname");
+        this.companyname = companyname;
+    }
+    private String companyproper;
+    public String getCompanyproper() {
+        return companyproper;
+    }
+    public void setCompanyproper(String companyproper) {
+        this.firePropertyChange("companyproper");
+        this.companyproper = companyproper;
+    }
+    private String companyaddress;
+    public String getCompanyaddress() {
+        return companyaddress;
+    }
+    public void setCompanyaddress(String companyaddress) {
+        this.firePropertyChange("companyaddress");
+        this.companyaddress = companyaddress;
+    }
+    private String housedistrict;
+    public String getHousedistrict() {
+        return housedistrict;
+    }
+    public void setHousedistrict(String housedistrict) {
+        this.firePropertyChange("housedistrict");
+        this.housedistrict = housedistrict;
+    }
+    private String houseloanflg;
+    public String getHouseloanflg() {
+        return houseloanflg;
+    }
+    public void setHouseloanflg(String houseloanflg) {
+        this.firePropertyChange("houseloanflg");
+        this.houseloanflg = houseloanflg;
+    }
+    private String housearea;
+    public String getHousearea() {
+        return housearea;
+    }
+    public void setHousearea(String housearea) {
+        this.firePropertyChange("housearea");
+        this.housearea = housearea;
+    }
+    private String houseage;
+    public String getHouseage() {
+        return houseage;
+    }
+    public void setHouseage(String houseage) {
+        this.firePropertyChange("houseage");
+        this.houseage = houseage;
+    }
+    private String houseaddress;
+    public String getHouseaddress() {
+        return houseaddress;
+    }
+    public void setHouseaddress(String houseaddress) {
+        this.firePropertyChange("houseaddress");
+        this.houseaddress = houseaddress;
+    }
+    private String carbuydate;
+    public String getCarbuydate() {
+        return carbuydate;
+    }
+    public void setCarbuydate(String carbuydate) {
+        this.firePropertyChange("carbuydate");
+        this.carbuydate = carbuydate;
+    }
+    private String carcity;
+    public String getCarcity() {
+        return carcity;
+    }
+    public void setCarcity(String carcity) {
+        this.firePropertyChange("carcity");
+        this.carcity = carcity;
+    }
+    private BigDecimal carprice;
+    public BigDecimal getCarprice() {
+        return carprice;
+    }
+    public void setCarprice(BigDecimal carprice) {
+        this.firePropertyChange("carprice");
+        this.carprice = carprice;
+    }
+    private Timestamp applydate;
+    public Timestamp getApplydate() {
+        return applydate;
+    }
+    public void setApplydate(Timestamp applydate) {
+        this.firePropertyChange("applydate");
+        this.applydate = applydate;
+    }
+    private String description;
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.firePropertyChange("description");
+        this.description = description;
+    }
+    private String status;
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.firePropertyChange("status");
+        this.status = status;
+    }
+    private String createid;
+    public String getCreateid() {
+        return createid;
+    }
+    public void setCreateid(String createid) {
+        this.firePropertyChange("createid");
+        this.createid = createid;
+    }
+    private Timestamp createtime;
+    public Timestamp getCreatetime() {
+        return createtime;
+    }
+    public void setCreatetime(Timestamp createtime) {
+        this.firePropertyChange("createtime");
+        this.createtime = createtime;
+    }
+    private String updateid;
+    public String getUpdateid() {
+        return updateid;
+    }
+    public void setUpdateid(String updateid) {
+        this.firePropertyChange("updateid");
+        this.updateid = updateid;
+    }
+    private Timestamp updatetime;
+    public Timestamp getUpdatetime() {
+        return updatetime;
+    }
+    public void setUpdatetime(Timestamp updatetime) {
+        this.firePropertyChange("updatetime");
+        this.updatetime = updatetime;
+    }
+
+    public String toJSONString(){
+        return "{\"id\":\"" + id + "\",\"loantype\":\"" + loantype + "\",\"name\":\"" + name + "\",\"sex\":\"" + sex + "\",\"phone\":\"" + phone + "\",\"email\":\"" + email + "\",\"loanamount\":\"" + loanamount + "\",\"unittelephone\":\"" + unittelephone + "\",\"companyname\":\"" + companyname + "\",\"companyproper\":\"" + companyproper + "\",\"companyaddress\":\"" + companyaddress + "\",\"housedistrict\":\"" + housedistrict + "\",\"houseloanflg\":\"" + houseloanflg + "\",\"housearea\":\"" + housearea + "\",\"houseage\":\"" + houseage + "\",\"houseaddress\":\"" + houseaddress + "\",\"carbuydate\":\"" + carbuydate + "\",\"carcity\":\"" + carcity + "\",\"carprice\":\"" + carprice + "\",\"applydate\":\"" + applydate + "\",\"description\":\"" + description + "\",\"status\":\"" + status + "\",\"createid\":\"" + createid + "\",\"createtime\":\"" + createtime + "\",\"updateid\":\"" + updateid + "\",\"updatetime\":\"" + updatetime + "\"}";
+    }
+    /// 工具生成区域 结束
+}

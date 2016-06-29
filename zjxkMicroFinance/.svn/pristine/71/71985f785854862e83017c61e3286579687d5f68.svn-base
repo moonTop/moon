@@ -1,0 +1,98 @@
+package com.yzframework.model;
+
+import com.yzframework.base.Model;
+import java.io.Serializable;
+import java.sql.Timestamp;
+/**
+ * 黑名单客户
+ * @author yuzhuo
+ */
+public class ZBlackcustomer extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
+    public ZBlackcustomer(){}
+
+    /// 自定义区域 开始
+
+    /// 自定义区域 结束
+
+    /// 工具生成区域 开始
+    private String id;
+    public String getID() {
+        return id;
+    }
+    public void setID(String id) {
+        this.firePropertyChange("id");
+        this.id = id;
+    }
+    private String name;
+    public String getNAme() {
+        return name;
+    }
+    public void setNAme(String name) {
+        this.firePropertyChange("name");
+        this.name = name;
+    }
+    private String idcard;
+    public String getIDcard() {
+        return idcard;
+    }
+    public void setIDcard(String idcard) {
+        this.firePropertyChange("idcard");
+        this.idcard = idcard;
+    }
+    private String description;
+    public String getDEscription() {
+        return description;
+    }
+    public void setDEscription(String description) {
+        this.firePropertyChange("description");
+        this.description = description;
+    }
+    private String status;
+    public String getSTatus() {
+        return status;
+    }
+    public void setSTatus(String status) {
+        this.firePropertyChange("status");
+        this.status = status;
+    }
+    private String createid;
+    public String getCReateid() {
+        return createid;
+    }
+    public void setCReateid(String createid) {
+        this.firePropertyChange("createid");
+        this.createid = createid;
+    }
+    private Timestamp createtime;
+    public Timestamp getCReatetime() {
+        return createtime;
+    }
+    public void setCReatetime(Timestamp createtime) {
+        this.firePropertyChange("createtime");
+        this.createtime = createtime;
+    }
+    private String updateid;
+    public String getUPdateid() {
+        return updateid;
+    }
+    public void setUPdateid(String updateid) {
+        this.firePropertyChange("updateid");
+        this.updateid = updateid;
+    }
+    private Timestamp updatetime;
+    public Timestamp getUPdatetime() {
+        return updatetime;
+    }
+    public void setUPdatetime(Timestamp updatetime) {
+        this.firePropertyChange("updatetime");
+        this.updatetime = updatetime;
+    }
+
+    public String toJSONString(){
+        return "{\"id\":\"" + id + "\",\"name\":\"" + name + "\",\"idcard\":\"" + idcard + "\",\"description\":\"" + description + "\",\"status\":\"" + status + "\",\"createid\":\"" + createid + "\",\"createtime\":\"" + createtime + "\",\"updateid\":\"" + updateid + "\",\"updatetime\":\"" + updatetime + "\"}";
+    }
+    /// 工具生成区域 结束
+}

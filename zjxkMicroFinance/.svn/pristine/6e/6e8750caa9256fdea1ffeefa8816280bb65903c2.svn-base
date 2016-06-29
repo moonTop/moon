@@ -1,0 +1,48 @@
+package com.yzframework.service.impl;
+
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.base.Page;
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.Mcustomer;
+import com.yzframework.service.McustomerService;
+
+@Service
+public class McustomerServiceImpl implements McustomerService{
+
+	@Resource
+	private IDAO dao;
+	public void setDao(IDAO dao) {
+		this.dao = dao;
+	}
+
+
+	@Override
+	public Page findPageCustomer(Page page, Mcustomer model) throws Exception {
+		
+		String hql = "from Mcustomer where 1 = 1";
+		
+		return dao.findPageByHql(hql, page);
+	}
+
+	/**
+	 * 根据id查询客户信息
+	 */
+	@Override
+	public Mcustomer findById(String id) throws Exception {
+		
+		return dao.findById(id, new Mcustomer());
+	}
+	
+	/**
+	 * 修改客户信息
+	 */
+	@Override
+	public void update(Mcustomer model) throws Exception{
+		dao.update(model);
+	}
+
+}

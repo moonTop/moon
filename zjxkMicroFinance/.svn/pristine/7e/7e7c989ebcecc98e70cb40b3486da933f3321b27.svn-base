@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.yzframework.model">
+    <class name="com.yzframework.model.Mloanrecord" table="M_LOAN_RECORD">
+        <comment>贷款记录</comment>
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="32">
+                <comment>ID</comment>
+            </column>
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="loanno" type="java.lang.String">
+            <column name="LOANNO" not-null="true" length="32">
+                <comment>贷款单号</comment>
+            </column>
+        </property>
+        <property name="loanpersonname" type="java.lang.String">
+            <column name="LOANPERSONNAME" length="100">
+                <comment>客户姓名</comment>
+            </column>
+        </property>
+        <property name="loantype" type="java.lang.String">
+            <column name="LOANTYPE" length="10">
+                <comment>贷款种类</comment>
+            </column>
+        </property>
+        <property name="liableperson1" type="java.lang.String">
+            <column name="LIABLEPERSON1" length="32">
+                <comment>责任人1</comment>
+            </column>
+        </property>
+        <property name="liableperson2" type="java.lang.String">
+            <column name="LIABLEPERSON2" length="32">
+                <comment>责任人2</comment>
+            </column>
+        </property>
+        <property name="loanamount" type="java.math.BigDecimal">
+            <column name="LOANAMOUNT">
+                <comment>贷款金额</comment>
+            </column>
+        </property>
+        <property name="loandate" type="java.sql.Timestamp">
+            <column name="LOANDATE">
+                <comment>贷款日期</comment>
+            </column>
+        </property>
+        <property name="paytype" type="java.lang.String">
+            <column name="PAYTYPE" length="32">
+                <comment>还款方式</comment>
+            </column>
+        </property>
+        <property name="paydate" type="java.sql.Timestamp">
+            <column name="PAYDATE">
+                <comment>还款日期</comment>
+            </column>
+        </property>
+        <property name="payrate" type="java.lang.String">
+            <column name="PAYRATE">
+                <comment>贷款利率</comment>
+            </column>
+        </property>
+        <property name="paymode" type="java.lang.String">
+            <column name="PAYMODE" length="32">
+                <comment>本金偿还方式</comment>
+            </column>
+        </property>
+        <property name="loanlimitbegin" type="java.sql.Timestamp">
+            <column name="LOANLIMITBEGIN">
+                <comment>借款期限开始日</comment>
+            </column>
+        </property>
+        <property name="loanlimitend" type="java.sql.Timestamp">
+            <column name="LOANLIMITEND">
+                <comment>借款期限结束日</comment>
+            </column>
+        </property>
+        <property name="payamount" type="java.math.BigDecimal">
+            <column name="PAYAMOUNT">
+                <comment>还款金额</comment>
+            </column>
+        </property>
+        <property name="accrualperiodization" type="java.lang.String">
+            <column name="ACCRUALPERIODIZATION" length="32">
+                <comment>贷款周期（月）</comment>
+            </column>
+        </property>
+        <property name="paystatus" type="java.lang.String">
+            <column name="PAYSTATUS" length="1">
+                <comment>还款状态</comment>
+            </column>
+        </property>
+        <property name="description" type="java.lang.String">
+            <column name="DESCRIPTION" length="1000">
+                <comment>说明</comment>
+            </column>
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS" length="1">
+                <comment>状态</comment>
+            </column>
+        </property>
+        <property name="createid" type="java.lang.String">
+            <column name="CREATEID" length="32">
+                <comment>创建者ID</comment>
+            </column>
+        </property>
+        <property name="createtime" type="java.sql.Timestamp">
+            <column name="CREATETIME">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateid" type="java.lang.String">
+            <column name="UPDATEID" length="32">
+                <comment>更新者ID</comment>
+            </column>
+        </property>
+        <property name="updatetime" type="java.sql.Timestamp">
+            <column name="UPDATETIME">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+        <many-to-one name="mcustomer" class="com.yzframework.model.Mcustomer">
+            <column name="CUSTOMERID"/>
+        </many-to-one>
+        <set name="mpayrecords" inverse="true" cascade="all">
+            <key column="LOANRECORDID"/>
+            <one-to-many class="com.yzframework.model.Mpayrecord"/>
+        </set>
+    </class>
+</hibernate-mapping>

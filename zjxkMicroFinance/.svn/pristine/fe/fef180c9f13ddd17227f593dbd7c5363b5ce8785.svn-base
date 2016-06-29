@@ -1,0 +1,108 @@
+package com.yzframework.model;
+
+import com.yzframework.base.Model;
+import java.io.Serializable;
+import java.sql.Timestamp;
+/**
+ * 用户角色管理
+ * @author yuzhuo
+ */
+public class TUserrole extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
+    public TUserrole(){}
+
+    /// 自定义区域 开始
+
+    /// 自定义区域 结束
+
+    /// 工具生成区域 开始
+    private String id;
+    public String getID() {
+        return id;
+    }
+    public void setID(String id) {
+        this.firePropertyChange("id");
+        this.id = id;
+    }
+    private String userid;
+    public String getUSerid() {
+        return userid;
+    }
+    public void setUSerid(String userid) {
+        this.firePropertyChange("userid");
+        this.userid = userid;
+    }
+    private String roleid;
+    public String getROleid() {
+        return roleid;
+    }
+    public void setROleid(String roleid) {
+        this.firePropertyChange("roleid");
+        this.roleid = roleid;
+    }
+    private String status;
+    public String getSTatus() {
+        return status;
+    }
+    public void setSTatus(String status) {
+        this.firePropertyChange("status");
+        this.status = status;
+    }
+    private String createid;
+    public String getCReateid() {
+        return createid;
+    }
+    public void setCReateid(String createid) {
+        this.firePropertyChange("createid");
+        this.createid = createid;
+    }
+    private Timestamp createtime;
+    public Timestamp getCReatetime() {
+        return createtime;
+    }
+    public void setCReatetime(Timestamp createtime) {
+        this.firePropertyChange("createtime");
+        this.createtime = createtime;
+    }
+    private String updateid;
+    public String getUPdateid() {
+        return updateid;
+    }
+    public void setUPdateid(String updateid) {
+        this.firePropertyChange("updateid");
+        this.updateid = updateid;
+    }
+    private Timestamp updatetime;
+    public Timestamp getUPdatetime() {
+        return updatetime;
+    }
+    public void setUPdatetime(Timestamp updatetime) {
+        this.firePropertyChange("updatetime");
+        this.updatetime = updatetime;
+    }
+    private ZUser zuser;
+    public ZUser getZUser() {
+        return zuser;
+    }
+    public void setZUser(ZUser zuser) {
+        this.firePropertyChange("zuser");
+        this.zuser = zuser;
+    }
+    private ZRole zrole;
+    public ZRole getZRole() {
+        return zrole;
+    }
+    public void setZRole(ZRole zrole) {
+        this.firePropertyChange("zrole");
+        this.zrole = zrole;
+    }
+
+    public String toJSONString(){
+        String userid = (zuser!=null)?zuser.getId():"";
+        String roleid = (zrole!=null)?zrole.getId():"";
+        return "{\"id\":\"" + id + "\",\"userid\":\"" + userid + "\",\"roleid\":\"" + roleid + "\",\"status\":\"" + status + "\",\"createid\":\"" + createid + "\",\"createtime\":\"" + createtime + "\",\"updateid\":\"" + updateid + "\",\"updatetime\":\"" + updatetime + "\"}";
+    }
+    /// 工具生成区域 结束
+}

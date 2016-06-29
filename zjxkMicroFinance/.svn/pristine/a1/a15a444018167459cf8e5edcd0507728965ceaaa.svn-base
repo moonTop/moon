@@ -1,0 +1,48 @@
+package com.yzframework.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.Mloanform;
+import com.yzframework.service.MLoanFormService;
+
+@Service
+public class MLoanFormServiceImpl implements MLoanFormService {
+
+	@Resource
+	private IDAO dao;
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public Mloanform findById(String id) throws Exception {
+		return dao.findById(id, new Mloanform());
+	}
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void save(Mloanform model) throws Exception {
+		dao.save(model);
+	}
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void update(Mloanform model) throws Exception {
+		dao.update(model);
+	}
+}

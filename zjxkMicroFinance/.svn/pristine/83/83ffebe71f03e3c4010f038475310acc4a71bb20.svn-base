@@ -1,0 +1,16 @@
+package com.yzframework.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface JbpmUserGroupCallbackService {
+
+	/**
+	 * 取得用户和角色的关系
+	 * 
+	 * @return Map
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> getUserAndRole();
+
+}

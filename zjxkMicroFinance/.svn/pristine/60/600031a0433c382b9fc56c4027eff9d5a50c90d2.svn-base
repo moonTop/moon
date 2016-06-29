@@ -1,0 +1,22 @@
+package com.yzframework.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.Mapply;
+import com.yzframework.service.ApplyService;
+
+@Service
+public class ApplyServiceImpl implements ApplyService {
+
+	@Resource
+	private IDAO dao;
+
+	@Override
+	public void save(Mapply model) throws Exception{
+		dao.save(model);
+	}
+
+}

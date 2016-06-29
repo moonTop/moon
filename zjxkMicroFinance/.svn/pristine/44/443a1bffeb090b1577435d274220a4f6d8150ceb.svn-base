@@ -1,0 +1,99 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="/WEB-INF/tld/c.tld" %>
+<div class="pageContent">
+    <form id="BK500101Form" method="post" action="BK5001/save.do" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <input type="hidden" id="id" name="id" value="${model.id}" />
+        <input type="hidden" id="navTabId" name="navTabId" value="" />
+        <div class="pageFormContent" layoutH="56">
+	        <div class="titleBar">
+	            <div class="navTitle">客户管理/</div><div class="pageTitle">客户管理添加【修改】</div>
+	        </div>
+            
+           
+            <dl>
+                <dt>客户编号：</dt>
+                <dd><input id="customerno"  name="customerno" type="text" size="30" class="required" value="${model.customerno}"  /></dd>
+            </dl>
+            
+            <dl>
+                <dt>身份/企业识别码：</dt>
+                <dd>
+	                <input id="idcard"  name="idcard" type="text" class="required" size="30" value="${model.idcard}" />
+                </dd>
+            </dl>
+             <dl>
+                <dt>姓名：</dt>
+                <dd>
+	                <input id="name"  name="name" type="text" class="required" size="30" value="${model.name}" />
+                </dd>
+            </dl>
+             <dl>
+                <dt>年龄：</dt>
+                <dd>
+	                <input id="age"  name="age" type="text" class="required" size="30" value="${model.age}"  />
+                </dd>
+            </dl>
+             <dl>
+                <dt>地址：</dt>
+                <dd>
+	                <input id="address"  name="address" type="text" class="required" size="30" value="${model.address}"  />
+                </dd>
+            </dl>
+             <dl>
+                <dt>公司名称：</dt>
+                <dd>
+	                <input id="companyname"  name="companyname" type="text" class="required" size="30" value="${model.companyname}"  />
+                </dd>
+            </dl>
+             <dl>
+                <dt>说明：</dt>
+                <dd>
+	                <input id="description"  name="description" type="text" class="required" size="30" value="${model.description}" />
+                </dd>
+            </dl>
+             <dl>
+                <dt>客户状态：</dt>
+                <dd>
+                	<select class="combox required" id="customerstatus" name="customerstatus" value="${model.customerstatus}"> 
+		            	<option value="正常">正常</option>
+		            	<option value="黑名单客户">黑名单客户</option>
+		            </select>
+                </dd>
+            </dl>
+            
+            <dl>
+                <dt>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态：</dt>
+                <dd>
+		            <select class="combox required" id="status" name="status" value="${model.status}"> 
+		            	<option value="1">可用</option>
+		            	<option value="2">不可用</option>
+	                    <option value="3">暂停使用</option>
+		            </select>
+	            </dd>
+            </dl>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+	$(function(){
+		$("#customerstatus").val("${model.customerstatus}");
+		$("#status").val("${model.status}");
+		$("#navTabId").val(navTab._getTabs().eq(navTab._currentIndex).attr("tabid"));
+	})
+
+    if (!!"${model.id}") {
+    	$("#BK500101Form").attr("action","BK5001/updateCustomer.do");
+    }
+    
+    
+    
+</script>

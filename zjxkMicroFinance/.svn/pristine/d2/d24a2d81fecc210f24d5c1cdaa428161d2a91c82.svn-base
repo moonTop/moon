@@ -1,0 +1,32 @@
+package com.yzframework.service;
+
+import com.yzframework.model.Mcardloanform;
+
+public interface MCardLoanService {
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public Mcardloanform findById(String id) throws Exception;
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void save(Mcardloanform model) throws Exception;
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void update(Mcardloanform model) throws Exception;
+}

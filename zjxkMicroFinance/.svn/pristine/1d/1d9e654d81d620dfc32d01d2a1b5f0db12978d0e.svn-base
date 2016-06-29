@@ -1,0 +1,101 @@
+package com.yzframework.base;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.drools.runtime.StatefulKnowledgeSession;
+import org.drools.runtime.process.ProcessInstance;
+import org.jbpm.process.workitem.wsht.LocalHTWorkItemHandler;
+import org.jbpm.task.Comment;
+import org.jbpm.task.Status;
+import org.jbpm.task.Task;
+import org.jbpm.task.User;
+import org.jbpm.task.query.TaskSummary;
+import org.jbpm.task.service.local.LocalTaskService;
+import org.jbpm.task.utils.OnErrorAction;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class JbpmBase {
+    @Resource
+    private StatefulKnowledgeSession ksession;
+    
+    @Resource
+    private LocalTaskService taskService;
+    
+	/**
+	 * 启动流程
+	 * 
+	 * @param processId 流程ID
+	 * @param userId 流程创建者ID
+	 * @param businessId 业务ID
+	 * 
+	 * @return 流程实例ID
+	 */
+    protected long createAndStartProcess(String processId, String userId, String businessId) {
+
+		LocalHTWorkItemHandler localHTWorkItemHandler = new LocalHTWorkItemHandler(taskService, ksession,OnErrorAction.RETHROW);
+        localHTWorkItemHandler.connect();
+        ksession.getWorkItemManager().registerWorkItemHandler("Human Task", localHTWorkItemHandler);
+
+        Map<String, Object> processVariables = new HashMap<String, Object>();
+        processVariables.put("businessId", businessId);
+        ProcessInstance processInstance = (ProcessInstance)ksession.startProcess(processId, processVariables);
+        
+        List<Status> statusList = new ArrayList<Status>();
+        statusList.add(Status.Ready);
+        List<TaskSummary> tasks = taskService.getTasksByStatusByProcessId(processInstance.getId(), statusList, "en-UK");
+
+        // 开始并结束第一个节点
+        taskService.start(tasks.get(0).getId(), userId);
+        taskService.complete(tasks.get(0).getId(), userId, null);
+        
+        return processInstance.getId();
+    }
+    
+	/**
+	 * 开始并结束任务
+	 * 
+	 * @param taskId 任务ID
+	 * @param userId 参与者ID
+	 * @param commentText 审批意见
+	 * 
+	 * @return 流程实例ID
+	 */
+    protected long startAndCompleteTask(long taskId, String userId, String commentText) {
+
+        Task task = taskService.getTask(taskId);
+        
+        // 审批意见
+        Comment comment = new Comment();
+        comment.setText(commentText);
+        comment.setAddedBy(new User(userId));
+        comment.setAddedAt(new Date(System.currentTimeMillis()));
+        task.getTaskData().addComment(comment);
+        
+        taskService.start(task.getId(), userId);
+        taskService.complete(task.getId(), userId, null);
+        
+        return task.getTaskData().getProcessInstanceId();
+    }
+    
+	/**
+	 * 动态指定 下一个任务参与者
+	 * 
+	 * @param processInstanceId 流程实例ID
+	 * @param userId 参与者ID
+	 */
+    protected void claimNextTask(long processInstanceId, String userId){
+        // 动态指定下一个节点的参与者
+        List<Status> statusList = new ArrayList<Status>();
+        statusList.add(Status.Ready);
+        List<TaskSummary> nextTasks = taskService.getTasksByStatusByProcessId(processInstanceId, statusList, "en-UK");
+        Task nextTask = taskService.getTask(nextTasks.get(0).getId());
+        taskService.claim(nextTask.getId(), userId);
+    }
+}

@@ -1,0 +1,83 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="/WEB-INF/tld/c.tld" %>
+<form id="pagerForm" method="post" action="BK5001/customerList.do">
+    <input type="hidden" name="pageNum" value="1" />
+    <input type="hidden" name="orderField" value="" />
+    <input type="hidden" name="orderDirection" value="asc" />
+</form>
+
+<div class="pageHeader">
+<form rel="pagerForm" onsubmit="return navTabSearch(this);" action="BK5001/customerList.do" method="post">
+    <input type="hidden" id="numPerPage" name="numPerPage" value="${page.numPerPage}">
+    <div class="searchBar">
+        <div class="titleBar">
+            <div class="navTitle">客户管理/</div><div class="pageTitle">客户管理列表</div>
+        </div>
+        <div class="pageFormContent" >
+            <label style="width:11em;">身份证/组织机构代码：</label><input type="text" name="idcard" value="" />
+            <label>客户名称：</label><input type="text" name="name" value="" />
+        </div>
+        <div class="subBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit">查&nbsp;&nbsp;询</button></div></div></li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="edit" href="BK5001/editCustomer/{id}.do" title="修改客户信息" target="dialog" width="800" height="600" rel="BK500101"><span>修改</span></a></li>
+        </ul>
+    </div>
+    <table id="gridTable" class="table" width="100%" layoutH="194">
+        <thead>
+            <tr>
+                <th style="font-weight:bold; text-align: center;"  width="50">序号</th>
+				<th style="font-weight:bold; text-align: center;" width="200" style="font-weight:bold;">身份证/组织机构代码</th>
+				<th style="font-weight:bold; text-align: center;" width="100" style="font-weight:bold;">名称</th>
+				<th style="font-weight:bold; text-align: center;" width="100" style="font-weight:bold;">联系电话</th>
+				<th style="font-weight:bold; text-align: center;" width="100" style="font-weight:bold;">现住址</th>
+				<th style="font-weight:bold; text-align: center;" width="100" style="font-weight:bold;">工作单位电话</th>
+				<th style="font-weight:bold; text-align: center;" width="100" style="font-weight:bold;">客户状态</th>
+            </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="customer" items="${page.resultList}" varStatus="status">
+            <tr target="id" rel="${customer.id}">
+                <td align="center">${status.index+1}</td>
+				<c:if test="${empty customer.orgcode}">
+                <td align="center">${customer.idcard}</td>
+                </c:if>
+				<c:if test="${!empty customer.orgcode}">
+                <td align="center">${customer.orgcode}</td>
+                </c:if>                
+                <td align="center">${customer.name}</td>
+                <td align="center">${customer.telephone}</td>
+                <td align="center">${customer.adrress}</td>
+                <td align="center">${customer.companyphone}</td>
+                <td align="center">${customer.customerstatus}</td>
+               
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span>
+            <select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+            <span>条，共${page.totalCount}条</span>
+        </div>
+        
+        <div class="pagination" targetType="navTab" totalCount="${page.totalCount}" numPerPage="${page.numPerPage}" pageNumShown="10" currentPage="${page.pageNum}"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    navTab.getCurrentPanel().find("select[name='numPerPage'] option[value='${page.numPerPage}']").attr("selected",true);
+</script>

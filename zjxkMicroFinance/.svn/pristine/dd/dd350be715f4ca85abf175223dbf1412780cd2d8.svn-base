@@ -1,0 +1,32 @@
+package com.yzframework.service;
+
+import com.yzframework.model.Mloanform;
+
+public interface MLoanFormService {
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public Mloanform findById(String id) throws Exception;
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void save(Mloanform model) throws Exception;
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void update(Mloanform model) throws Exception;
+}

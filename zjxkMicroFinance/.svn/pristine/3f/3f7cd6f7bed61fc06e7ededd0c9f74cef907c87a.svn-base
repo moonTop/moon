@@ -1,0 +1,56 @@
+package com.yzframework.model;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import com.yzframework.base.Model;
+
+/**
+ * 企业管理
+ * @author yuzhuo
+ */
+public class ZRole extends Model implements Serializable {
+
+	private static final long serialVersionUID = -1L;
+
+	public ZRole() {
+	}
+
+	// / 自定义区域 开始
+
+	// / 自定义区域 结束
+
+	// / 工具生成区域 开始
+	private String roleid;
+	private String rolename;
+
+	// / 工具生成区域 结束
+
+	public String getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+
+	public String getRolename() {
+		return rolename;
+	}
+
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
+	}
+
+	private Set<ZUser> zusers;
+
+	public Set<ZUser> getZusers() {
+    	return zusers;
+    }
+
+	public void setZusers(Set<ZUser> zusers) {
+    	this.zusers = zusers;
+    }
+
+
+}

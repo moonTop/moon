@@ -1,0 +1,114 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>天津小额贷款OA系统</title>
+    <link rel="Stylesheet" type="text/css" href="css/FrontStyle.css">
+<style type="text/css">
+    #divSpace5
+    {
+        width: 946px; height: 10px; float: left;
+    }
+
+    #divLoginBoxLeft
+    {
+        width:587px;
+        height:285px;
+        float:left;
+        background:url(imgs/Bg_LoginBoxL_Corp.jpg) repeat-x;
+    }
+
+    #divLoginBoxRight
+    {
+      width:359px;
+      height:285px;
+      float:left;
+      background:url(imgs/Bg_LoginBoxR_Corp.jpg) repeat-x;
+    }
+    
+    #divSpaceLeft
+    {
+      width: 39px; height: 285px; float: left;
+    }
+     
+    #divSpaceRight
+    {
+        width: 320px; height: 285px; float: left;
+    } 
+</style>
+</head>
+<body >
+<div id="mainPage">
+<div style="margin-bottom: 20px;height: 30px;">
+</div>
+        <div class="divForm">
+            <div class="divHead">
+            </div>
+            <div class="divMenuMain">
+            </div>
+            <div class="divContent">
+                <div class="divInfoBar"><br>
+                </div>
+                <div id="divSpace5">
+                </div>
+                <div class="divLoginBox">
+                    <div id="divLoginBoxLeft">
+                    </div>
+                    <div id="divLoginBoxRight">
+                        <div id="divSpaceLeft">
+                        </div>
+                        <div id="divSpaceRight">
+                            <div style="width: 320px; height: 105px; float: left;">
+                            </div>
+                            <div style="width: 320px; height: 180px; float: left;">
+                               <form id="form" action="login.do" method="post">
+                                <table style="width: 320px; font-size: 13px;">
+                                    <tbody><tr>
+                                        <td style="width: 55px;">用户名：</td>
+                                        <td style="width: 240px;">
+                                               <input name="userid"  type="text"  id="userid"  style="width: 200px;" value="${userid}"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td colspan="2">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>密&nbsp;&nbsp;&nbsp;码：</td>
+                                        <td>
+                                            <input name="password"  type="password"  id="password"  style="width: 200px;" />
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 25px;">
+                                        <td></td>
+                                        <td><font color="red">${errmsg}</font></td>
+                                    </tr>
+                                    <tr style="height: 20px;">
+                                        <td colspan="2">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                         <input id="submitBtn"  type="submit" value=" 确 定 " class="buttons" style="margin-right: 20px;">
+				                   		 <input id="submmitBtnn"  type="button" value="注 册" class="buttons" onclick="window.location='registe.do'" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divBottom">Copyright © 2013 &nbsp;  &nbsp;&nbsp;  天津小额贷款
+             <br> North of tianjin port of talent co., LTD.
+            </div>
+        </div>
+        </div>
+</body>
+</html>

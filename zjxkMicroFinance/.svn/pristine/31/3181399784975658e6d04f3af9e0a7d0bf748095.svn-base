@@ -1,0 +1,190 @@
+package com.yzframework.model;
+
+import java.sql.Timestamp;
+
+import com.yzframework.base.Model;
+
+
+public class FMenuLevel2 extends Model implements java.io.Serializable {
+
+	// Fields
+
+	private Integer menuId;
+	private FMenuLevel1 firstMenuT;
+	private String menuName;
+	private Integer displayFlg;
+	private Integer endFlg;
+	private Integer sort;
+	private String redirectPath;
+	private String imagePath;
+	private String moduleFlg;
+	private String moduleSort;
+	private Integer menuLevel;
+	private Timestamp createTime;
+	private String createUserId;
+	private Timestamp updateTime;
+	private String updateUserId;
+
+	// Constructors
+
+	/** default constructor */
+	public FMenuLevel2() {
+	}
+
+	/** minimal constructor */
+	public FMenuLevel2(Integer menuId, FMenuLevel1 firstMenuT, String menuName,
+			Integer displayFlg, Integer endFlg, Integer sort) {
+		this.menuId = menuId;
+		this.firstMenuT = firstMenuT;
+		this.menuName = menuName;
+		this.displayFlg = displayFlg;
+		this.endFlg = endFlg;
+		this.sort = sort;
+	}
+
+	/** full constructor */
+	public FMenuLevel2(Integer menuId, FMenuLevel1 firstMenuT, String menuName,
+			Integer displayFlg, Integer endFlg, Integer sort,
+			String redirectPath, String imagePath, String moduleFlg,
+			String moduleSort, Integer menuLevel, Timestamp createTime,
+			String createUserId, Timestamp updateTime, String updateUserId) {
+		this.menuId = menuId;
+		this.firstMenuT = firstMenuT;
+		this.menuName = menuName;
+		this.displayFlg = displayFlg;
+		this.endFlg = endFlg;
+		this.sort = sort;
+		this.redirectPath = redirectPath;
+		this.imagePath = imagePath;
+		this.moduleFlg = moduleFlg;
+		this.moduleSort = moduleSort;
+		this.menuLevel = menuLevel;
+		this.createTime = createTime;
+		this.createUserId = createUserId;
+		this.updateTime = updateTime;
+		this.updateUserId = updateUserId;
+	}
+
+	// Property accessors
+
+	public Integer getMenuId() {
+		return this.menuId;
+	}
+
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
+
+	public FMenuLevel1 getFirstMenuT() {
+		return this.firstMenuT;
+	}
+
+	public void setFirstMenuT(FMenuLevel1 firstMenuT) {
+		this.firstMenuT = firstMenuT;
+	}
+
+	public String getMenuName() {
+		return this.menuName;
+	}
+
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+
+	public Integer getDisplayFlg() {
+		return this.displayFlg;
+	}
+
+	public void setDisplayFlg(Integer displayFlg) {
+		this.displayFlg = displayFlg;
+	}
+
+	public Integer getEndFlg() {
+		return this.endFlg;
+	}
+
+	public void setEndFlg(Integer endFlg) {
+		this.endFlg = endFlg;
+	}
+
+	public Integer getSort() {
+		return this.sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	public String getRedirectPath() {
+		return this.redirectPath;
+	}
+
+	public void setRedirectPath(String redirectPath) {
+		this.redirectPath = redirectPath;
+	}
+
+	public String getImagePath() {
+		return this.imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public String getModuleFlg() {
+		return this.moduleFlg;
+	}
+
+	public void setModuleFlg(String moduleFlg) {
+		this.moduleFlg = moduleFlg;
+	}
+
+	public String getModuleSort() {
+		return this.moduleSort;
+	}
+
+	public void setModuleSort(String moduleSort) {
+		this.moduleSort = moduleSort;
+	}
+
+	public Integer getMenuLevel() {
+		return this.menuLevel;
+	}
+
+	public void setMenuLevel(Integer menuLevel) {
+		this.menuLevel = menuLevel;
+	}
+
+	public Timestamp getCreateTime() {
+		return this.createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getCreateUserId() {
+		return this.createUserId;
+	}
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public Timestamp getUpdateTime() {
+		return this.updateTime;
+	}
+
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateUserId() {
+		return this.updateUserId;
+	}
+
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+}

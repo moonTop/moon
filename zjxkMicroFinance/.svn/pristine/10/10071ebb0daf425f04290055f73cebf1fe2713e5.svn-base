@@ -1,0 +1,99 @@
+package com.yzframework.base;
+
+public class SessionInfo {
+	
+	private String userUUid;
+	private String userid;
+	private String userName;
+	private String roleid;
+	private String rolename;
+	private String companyId;
+	private String companyName;
+	private String ip;
+	private String optcompanyId;
+	private String optuserUUid;
+	
+	public String getUserUUid() {
+		return userUUid;
+	}
+
+	public void setUserUUid(String userUUid) {
+		this.userUUid = userUUid;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getUserName() {
+    	return userName;
+    }
+
+	public void setUserName(String userName) {
+    	this.userName = userName;
+    }
+
+	public String getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+
+	public String getRolename() {
+		return rolename;
+	}
+
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	
+	public String getOptcompanyId() {
+		return optcompanyId;
+	}
+
+	public void setOptcompanyId(String optcompanyId) {
+		this.optcompanyId = optcompanyId;
+	}
+
+	public String getOptuserUUid() {
+		return optuserUUid;
+	}
+
+	public void setOptuserUUid(String optuserUUid) {
+		this.optuserUUid = optuserUUid;
+	}
+
+	public String toString(){
+		return "userid: "+userid+",roleid: "+roleid+",rolename: "+rolename+",companyId: "+companyId+",companyName: "+companyName;
+	}
+}

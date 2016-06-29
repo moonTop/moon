@@ -1,0 +1,118 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>天津中金新科小额贷款管理系统</title>
+    <style type="text/css">
+    body
+       {
+           margin: 0px;
+           overflow: hidden;
+           text-align: center;
+           vertical-align: middle;
+           background: #9F9F9F;
+       }
+        .clsDiv
+        {
+            margin-top: 100px;
+            width: 988px;
+            height: 533px;
+        }
+        
+        .loginDiv
+        {
+            width: 320px;
+            height: 203px;
+            padding-top: 280px;
+            padding-left: 600px;
+        }
+        
+        .buttons{
+            width:90px;
+            height:26px;
+            color:White;
+            font-weight:bold;
+            background:url('${contextPath}/imgs/Bg_btnYellow_Submit.gif') no-repeat;
+            border-width:0px;
+            text-align:center;
+            cursor:hand;
+        }
+    </style>
+</head>
+<body>
+<form id="form" action="login.do" method="post">
+<center>
+    <div style="vertical-align: middle; height: 100%; width: 100%;">
+        <div id="loadDiv" class="clsDiv" style="background-image: url('${contextPath}/imgs/Bg_LoginBox.gif');">
+        <div class="loginDiv">
+            <table style="width: 320px; font-size: 13px;">
+              <tbody>
+                <tr style="text-align: center">
+                    <td id="messageTd" colspan="3" style="color: red; font-size: 13px; font-family: '微软雅黑'; font-style: normal; font-weight: normal;">&nbsp;${message}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 55px;">用户名：</td>
+                    <td style="width: 240px;"><input name="userid"  type="text"  id="userid"  style="width: 200px;" value="${userid}"/></td>
+                </tr>
+                <tr style="height: 15px;">
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td>密&nbsp;&nbsp;&nbsp;码：</td>
+                    <td><input name="password"  type="password"  id="password"  style="width: 200px;" /></td>
+                </tr>
+                <tr style="height: 15px;">
+                    <td colspan="2"></td>
+                </tr>
+                <tr style="height: 20px;" >
+                    <td>验证码：</td>
+                    <td><input id="rand" name="rand" type="text" class="loginInput" maxlength="4" style="width: 138px;">&nbsp;
+                        <img name="randImage" id="randImage" src="image.jsp" onclick="loadimage();" border="1" align="absmiddle"style="cursor: hand;">
+                    </td>
+                </tr>
+                <tr style="height: 20px;">
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="submitBtn"  type="submit" value=" 确 定 " class="buttons" style="margin-right: 20px;">
+                        <input id="submmitBtnn"  type="button" value="注 册" class="buttons" onclick="window.location='registe.do'" />
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+    </div>
+</center>
+</form>
+</body>
+<script type="text/javascript">
+
+    $(function() {
+    	$("#loadDiv").css('position', 'relative');
+        $("#loadDiv").css('top', (jQuery(window).height() - 533) * 0.5);
+        
+        $(document).keydown(function(event) {
+            if (event.keyCode == 108 || event.keyCode == 13) {
+                submit();
+            }
+        });
+
+        $("#btnLogin").click(function() {
+            submit();
+        })
+    });
+    
+    function loadimage() {
+        document.getElementById("randImage").src = "./image.jsp?"
+                + Math.random();
+    }
+    function submit() {
+        $('#form').submit();
+    }
+</script>
+</html>

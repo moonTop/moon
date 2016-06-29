@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LOGCONFIG>
+    <MODULE>
+        <NAME>系统用户管理</NAME>
+        <TABLE>M_USER</TABLE>
+        <COLUMN>
+            <NAME>USERNAME</NAME>
+            <COMMENT>用户名称</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK4001/conserveUser</VALUE>
+            <OPNAME>添加用户</OPNAME>
+        </URI>
+        <URI>
+            <VALUE>BK4001/reviseUser</VALUE>
+            <OPNAME>修改用户</OPNAME>
+        </URI>
+        
+        <URI>
+            <VALUE>BK4001/deleteUserInfo</VALUE>
+            <OPNAME>删除用户</OPNAME>
+        </URI>
+        <URI>
+            <VALUE>BK4001/resetUserPassword</VALUE>
+            <OPNAME>重置用户密码</OPNAME>
+        </URI>
+       
+    </MODULE>
+    
+    <MODULE>
+        <NAME>权限管理</NAME>
+        <TABLE>T_AUTHORITY</TABLE>
+        <COLUMN>
+            <NAME>ROLEID</NAME>
+            <COMMENT>角色ID</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK4003/saveAssignment</VALUE>
+            <OPNAME>权限分配</OPNAME>
+        </URI>
+    </MODULE>
+    
+        <MODULE>
+        <NAME>用户角色管理</NAME>
+        <TABLE>T_USER_ROLE</TABLE>
+        <COLUMN>
+            <NAME>USERID</NAME>
+            <COMMENT>用户ID</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK4001/roleSave</VALUE>
+            <OPNAME>角色分配</OPNAME>
+        </URI>
+    </MODULE>
+    
+    <MODULE>
+        <NAME>部门机构管理</NAME>
+        <TABLE>M_ORG</TABLE>
+        <COLUMN>
+            <NAME>ORGNAME</NAME>
+            <COMMENT>部门名称</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK4002/save</VALUE>
+            <OPNAME>添加部门</OPNAME>
+        </URI>
+        <URI>
+            <VALUE>BK4002/update</VALUE>
+            <OPNAME>修改部门</OPNAME>
+        </URI>
+        <URI>
+            <VALUE>BK4002/remove</VALUE>
+            <OPNAME>删除部门</OPNAME>
+        </URI>
+    </MODULE>
+    
+    <MODULE>
+        <NAME>用户角色管理</NAME>
+        <TABLE>T_USER_ROLE</TABLE>
+        <COLUMN>
+            <NAME>ROLEID</NAME>
+            <COMMENT>用户角色</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK4003/save</VALUE>
+            <OPNAME>添加用户角色</OPNAME>
+        </URI>
+        <URI>
+            <VALUE>BK4003/updaterole</VALUE>
+            <OPNAME>修改用户角色</OPNAME>
+        </URI>
+        <URI>
+            <VALUE>BK4003/removerole</VALUE>
+            <OPNAME>删除用户角色</OPNAME>
+        </URI>
+<!--         <URI> -->
+<!--             <VALUE>BK4003/saveAssignment</VALUE> -->
+<!--             <OPNAME>权限分配</OPNAME> -->
+<!--         </URI> -->
+    </MODULE>
+    
+    <MODULE>
+        <NAME>企业贷客户管理</NAME>
+        <TABLE>M_APPLY</TABLE>
+        <COLUMN>
+            <NAME>NAME</NAME>
+            <COMMENT>客户名称</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK1002/updateCompany</VALUE>
+            <OPNAME>修改企业贷客户信息</OPNAME>
+        </URI>
+    </MODULE>
+    <MODULE>
+        <NAME>楼易贷客户管理</NAME>
+        <TABLE>M_APPLY</TABLE>
+        <COLUMN>
+            <NAME>NAME</NAME>
+            <COMMENT>客户名称</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK1003/update</VALUE>
+            <OPNAME>修改楼易贷客户信息</OPNAME>
+        </URI>
+    </MODULE>
+    <MODULE>
+        <NAME>车易贷客户管理</NAME>
+        <TABLE>M_APPLY</TABLE>
+        <COLUMN>
+            <NAME>NAME</NAME>
+            <COMMENT>客户名称</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK1004/update</VALUE>
+            <OPNAME>修改车易贷客户信息</OPNAME>
+        </URI>
+    </MODULE>
+    
+     <MODULE>
+        <NAME>贷款信息管理</NAME>
+        <TABLE>M_LOAN_RECORD</TABLE>
+        <COLUMN>
+            <NAME>LOANNO</NAME>
+            <COMMENT>贷款单号</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK3001/updateMloanrecord</VALUE>
+            <OPNAME>修改贷款信息</OPNAME>
+        </URI>
+    </MODULE>
+    
+
+     <MODULE>
+        <NAME>还款计划管理</NAME>
+        <TABLE>M_PAY_RECORD</TABLE>
+        <COLUMN>
+            <NAME>LOANRECORDID</NAME>
+            <COMMENT>还款单号</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK3002/updateMpayrecord</VALUE>
+            <OPNAME>修改贷款信息</OPNAME>
+        </URI>
+    </MODULE>    
+
+     <MODULE>
+        <NAME>客户管理</NAME>
+        <TABLE>M_CUSTOMER</TABLE>
+        <COLUMN>
+            <NAME>NAME</NAME>
+            <COMMENT>客户姓名</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK5001/updateCustomer</VALUE>
+            <OPNAME>修改客户信息</OPNAME>
+        </URI>
+    </MODULE>
+    
+         <MODULE>
+        <NAME>车易贷申请单</NAME>
+        <TABLE>M_CARLOAN_FORM</TABLE>
+        <COLUMN>
+            <NAME>LOANPERSONNAME</NAME>
+            <COMMENT>申请借款人姓名</COMMENT>
+        </COLUMN>
+        <URI>
+            <VALUE>BK2001/save</VALUE>
+            <OPNAME>添加车易贷申请单</OPNAME>
+        </URI>
+    </MODULE>
+   
+</LOGCONFIG>

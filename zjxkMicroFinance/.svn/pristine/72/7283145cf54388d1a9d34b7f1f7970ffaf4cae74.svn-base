@@ -1,0 +1,132 @@
+package com.yzframework.model;
+
+import com.yzframework.base.Model;
+import java.io.Serializable;
+import java.sql.Date;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+/**
+ * 还款管理
+ * @author yuzhuo
+ */
+public class ZPayrecord extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
+    public ZPayrecord(){}
+
+    /// 自定义区域 开始
+
+    /// 自定义区域 结束
+
+    /// 工具生成区域 开始
+    private String id;
+    public String getID() {
+        return id;
+    }
+    public void setID(String id) {
+        this.firePropertyChange("id");
+        this.id = id;
+    }
+    private String loanno;
+    public String getLOanno() {
+        return loanno;
+    }
+    public void setLOanno(String loanno) {
+        this.firePropertyChange("loanno");
+        this.loanno = loanno;
+    }
+    private Date planpaydate;
+    public Date getPLanpaydate() {
+        return planpaydate;
+    }
+    public void setPLanpaydate(Date planpaydate) {
+        this.firePropertyChange("planpaydate");
+        this.planpaydate = planpaydate;
+    }
+    private BigDecimal planpayamount;
+    public BigDecimal getPLanpayamount() {
+        return planpayamount;
+    }
+    public void setPLanpayamount(BigDecimal planpayamount) {
+        this.firePropertyChange("planpayamount");
+        this.planpayamount = planpayamount;
+    }
+    private Date paydate;
+    public Date getPAydate() {
+        return paydate;
+    }
+    public void setPAydate(Date paydate) {
+        this.firePropertyChange("paydate");
+        this.paydate = paydate;
+    }
+    private BigDecimal payamount;
+    public BigDecimal getPAyamount() {
+        return payamount;
+    }
+    public void setPAyamount(BigDecimal payamount) {
+        this.firePropertyChange("payamount");
+        this.payamount = payamount;
+    }
+    private String payperson;
+    public String getPAyperson() {
+        return payperson;
+    }
+    public void setPAyperson(String payperson) {
+        this.firePropertyChange("payperson");
+        this.payperson = payperson;
+    }
+    private String description;
+    public String getDEscription() {
+        return description;
+    }
+    public void setDEscription(String description) {
+        this.firePropertyChange("description");
+        this.description = description;
+    }
+    private String status;
+    public String getSTatus() {
+        return status;
+    }
+    public void setSTatus(String status) {
+        this.firePropertyChange("status");
+        this.status = status;
+    }
+    private String createid;
+    public String getCReateid() {
+        return createid;
+    }
+    public void setCReateid(String createid) {
+        this.firePropertyChange("createid");
+        this.createid = createid;
+    }
+    private Timestamp createtime;
+    public Timestamp getCReatetime() {
+        return createtime;
+    }
+    public void setCReatetime(Timestamp createtime) {
+        this.firePropertyChange("createtime");
+        this.createtime = createtime;
+    }
+    private String updateid;
+    public String getUPdateid() {
+        return updateid;
+    }
+    public void setUPdateid(String updateid) {
+        this.firePropertyChange("updateid");
+        this.updateid = updateid;
+    }
+    private Timestamp updatetime;
+    public Timestamp getUPdatetime() {
+        return updatetime;
+    }
+    public void setUPdatetime(Timestamp updatetime) {
+        this.firePropertyChange("updatetime");
+        this.updatetime = updatetime;
+    }
+
+    public String toJSONString(){
+        return "{\"id\":\"" + id + "\",\"loanno\":\"" + loanno + "\",\"planpaydate\":\"" + planpaydate + "\",\"planpayamount\":\"" + planpayamount + "\",\"paydate\":\"" + paydate + "\",\"payamount\":\"" + payamount + "\",\"payperson\":\"" + payperson + "\",\"description\":\"" + description + "\",\"status\":\"" + status + "\",\"createid\":\"" + createid + "\",\"createtime\":\"" + createtime + "\",\"updateid\":\"" + updateid + "\",\"updatetime\":\"" + updatetime + "\"}";
+    }
+    /// 工具生成区域 结束
+}

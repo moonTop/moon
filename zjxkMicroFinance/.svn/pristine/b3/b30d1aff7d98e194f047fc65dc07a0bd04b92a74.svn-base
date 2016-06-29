@@ -1,0 +1,28 @@
+package com.yzframework.base;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+
+import com.yzframework.utils.CustomTimestampEditor;
+
+@Controller
+public class BaseController {
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		
+		binder.registerCustomEditor(BigDecimal.class, new  CustomNumberEditor(BigDecimal.class,true));
+		
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Timestamp.class, new CustomTimestampEditor(dateFormat, true));
+		
+	}
+
+}

@@ -1,0 +1,48 @@
+package com.yzframework.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.Mcardloanform;
+import com.yzframework.service.MCardLoanService;
+
+@Service
+public class MCardLoanServiceImpl implements MCardLoanService {
+
+	@Resource
+	private IDAO dao;
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public Mcardloanform findById(String id) throws Exception {
+		return dao.findById(id, new Mcardloanform());
+	}
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void save(Mcardloanform model) throws Exception {
+		dao.save(model);
+	}
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void update(Mcardloanform model) throws Exception {
+		dao.update(model);
+	}
+}

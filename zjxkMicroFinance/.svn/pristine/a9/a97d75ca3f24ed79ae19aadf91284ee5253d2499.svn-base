@@ -1,0 +1,185 @@
+package com.yzframework.controller;
+
+import java.net.InetAddress;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.yzframework.base.ActionContext;
+import com.yzframework.base.Constant;
+import com.yzframework.base.SessionInfo;
+import com.yzframework.model.Mrole;
+import com.yzframework.model.Muser;
+import com.yzframework.service.MRoleService;
+import com.yzframework.service.MuserService;
+import com.yzframework.utils.CheckUtil;
+import com.yzframework.utils.PasswordUtil;
+
+/**
+ * @author Administrator
+ * 
+ */
+@Controller
+public class LoginController {
+	protected final Log logger = LogFactory.getLog(getClass());
+
+	@Resource
+	private MuserService muserService;
+
+	@Resource
+	private MRoleService mroleservice;
+
+	/**
+	 * 退出系统
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("logon")
+	public ModelAndView logon() throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("login");
+
+		return mav;
+	}
+
+	/**
+	 * 用户登录验证
+	 * 
+	 * @param userid
+	 * @param password7
+	 * @param request
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("login")
+	public ModelAndView loginValidate(String userid, String password,
+			HttpServletRequest request, HttpSession session, String rand)
+			throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(!CheckUtil.isRequired(userid)) {
+			mav.setViewName("login");
+			mav.addObject("message", "用户名不能为空!");
+			return mav;
+		}
+		mav.addObject("userid", userid);
+		if(!CheckUtil.isRequired(password)) {
+			mav.setViewName("login");
+			mav.addObject("message", "密码不能为空!");
+			return mav;
+		}
+
+		if (!CheckUtil.isRequired(rand)) {
+			mav.setViewName("login");
+			mav.addObject("message", "验证码不能为空!");
+			return mav;
+		} else {
+			if (!rand.equals(session.getAttribute("rand"))) {
+				mav.setViewName("login");
+				mav.addObject("message", "验证码不正确!");
+				return mav;
+			}
+		}
+
+		// 判断当前登录用户是否存在
+		Muser muser = new Muser();
+		muser.setUserid(userid);
+		List<Muser> list = muserService.findByModel(muser);
+		if (list.size() <= 0) {
+			mav.addObject("message", "帐号不存在");
+			mav.setViewName("login");
+			return mav;
+		}
+		if ((list.get(0).getStatus()).equals("0")) {
+			mav.addObject("message", "帐号已锁定");
+			mav.setViewName("login");
+			return mav;
+		}
+		Muser user = (Muser) list.get(0);
+		// 检查密码
+		if (!PasswordUtil.validatePassword(user.getPassword(),password)) {
+			mav.addObject("message", "密码不正确");
+			mav.setViewName("login");
+			return mav;
+		}
+
+		// 根据登录帐号判断用户是否登录
+		session.setAttribute("CURRENT_USER", userid);
+		session.setAttribute("CURRENT_USERNAME", user.getUsername());
+		if (user.getMorg() != null) {
+			session.setAttribute("orgname", user.getMorg().getOrgname());
+		}
+
+		List<Mrole> lst = mroleservice.findMroleByUserId(userid);
+		if (lst.size() > 0) {
+			Mrole mrole = lst.get(0);
+			session.setAttribute("roleName", mrole.getRolename());
+		}
+
+		ServletContext application = session.getServletContext();
+		@SuppressWarnings("unchecked")
+		HashSet<HttpSession> logonUserSessions = (HashSet<HttpSession>) application
+				.getAttribute("logonUserSessions");
+		outline(user.getUserid(), session, logonUserSessions);
+
+		// 将登录用户信息存入到SESSION
+		SessionInfo sessioninfo = ActionContext.getSession();
+		sessioninfo.setUserid(user.getUserid());
+		sessioninfo.setUserUUid(user.getId());
+
+		InetAddress address = InetAddress.getLocalHost();
+
+		sessioninfo.setIp(address.getHostAddress());
+		session.setAttribute(Constant.SSESION_INFO, sessioninfo);
+		ActionContext.setSession(sessioninfo);
+
+		session.setAttribute("userId", userid);
+
+		// =========登录用户SESSION管理================ //
+		if (logonUserSessions == null) {
+			logonUserSessions = new HashSet<HttpSession>();
+			application.setAttribute("logonUserSessions", logonUserSessions);
+		}
+		logonUserSessions.add(session);
+		logger.info("用户登录,用户名=" + session.getAttribute("userId"));
+
+		mav = new ModelAndView("redirect:/views/loadMain.do");
+
+		return mav;
+	}
+
+	/**
+	 * 根据用户登录的帐号和密码信息判断用户是否存在，是否在线等信息
+	 * 
+	 * @param userid
+	 * @param session
+	 * @param sessions
+	 */
+	private void outline(String userid, HttpSession session,
+			HashSet<HttpSession> sessions) {
+		if (sessions == null) {
+			return;
+		}
+		Iterator<HttpSession> it = sessions.iterator();
+		while (it.hasNext()) {
+			HttpSession insession = it.next();
+			if (userid.equals(insession.getAttribute("userId"))
+					&& session != insession) {
+				insession.invalidate();
+			}
+		}
+	}
+
+}

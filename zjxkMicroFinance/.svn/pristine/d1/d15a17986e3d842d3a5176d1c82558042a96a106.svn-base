@@ -1,0 +1,217 @@
+package com.yzframework.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.base.ActionContext;
+import com.yzframework.base.Page;
+import com.yzframework.base.SessionInfo;
+import com.yzframework.bean.BeanUserList;
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.Fmodule;
+import com.yzframework.model.Mrole;
+import com.yzframework.model.Muser;
+import com.yzframework.model.Tuserrole;
+import com.yzframework.service.MuserService;
+import com.yzframework.utils.CheckUtil;
+@Service
+public class MuserServiceImpl implements MuserService {
+	
+	@Resource
+	private IDAO dao;
+	public IDAO getDao() {
+		return dao;
+	}
+	public void setDao(IDAO dao) {
+		this.dao = dao;
+	}
+	
+	/**
+	 * 根据ID获取登录用户信息
+	 * 
+	 * @模块  通用
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Muser findByid(String id) throws Exception {
+		Muser muser=dao.findById(id, new Muser());
+		return muser;
+	}
+	
+	/**
+     * 根据条件获取登录用户信息
+     * 
+     * @模块  通用
+     * 
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Muser> findByModel(Muser model) throws Exception {
+        List<Muser> mList =dao.findByModel(model);
+        return mList;
+    }
+	
+    /**
+     * 根据USERID获取登录用户信息
+     * 
+     * @模块  通用
+     * 
+     * @param userid
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Muser> findByUserid(String userid) throws Exception {
+        Muser model = new Muser();
+        model.setUserid(userid);
+        return dao.findByModel(model);
+    }
+	
+	/**
+	 * 根据登录帐号验证该帐号是否存在
+	 * 
+	 * @模块  用户登录
+	 * 
+	 * @param muser  
+	 * @return
+	 * @throws Exception
+	 *
+	 */
+	@Override
+	public List<Muser> find01(Muser muser) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(" from Muser as m where 1=1");
+		sb.append(" AND m.userid='"+muser.getUserid()+"'");
+		
+		return dao.findTByHql(sb.toString());
+	}
+
+	/**
+	 * 修改用户信息
+	 * 
+	 * @模块     考生信息
+	 * 
+	 * @param muser  
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public void update(Muser muser) throws Exception {
+		dao.update(muser);
+	}
+	
+	/**
+	 * 测试用户分页查询
+	 * 
+	 * @模块名称 测试用户
+	 */
+	@Override
+	public Page findPage01(Page page, Muser model) {
+		// 组装Hql
+		String hql = " FROM Muser a WHERE 1=1 AND a.roleid = '4' AND a.status != '2'";
+		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		
+		if (CheckUtil.isRequired(model.getUsername())) {
+			hql += " AND a.username LIKE :username";
+			parameters.put("username", '%'+model.getUsername()+'%');
+		}
+   
+        hql += " ORDER BY a.mcompany.id ASC, a.ticktno ASC";
+		Page p = dao.findPageByHql(hql, parameters, page);
+		return p;
+	}
+	
+	/**
+     * 后台用户分页查询
+     * 
+     * @模块名称 后台用户管理
+     */
+    @Override
+    public Page findPage02(Page page, Muser model) {
+    	
+        // 组装Hql
+        String sql = " select a.id as id ,a.userid as userid,a.username as username, d.orgname as orgname, a.mobile as mobile, a.detail as detail, a.status as status, e.rolename as rolename ";
+        	   sql += " FROM m_user a LEFT JOIN M_ORG d ON a.orgid = d.id ";
+        	   sql += " LEFT JOIN (SELECT  b.USERID as userid ,c.ROLEID as ROLEID,c.ROLENAME as ROLENAME FROM m_role c,t_user_role b WHERE b.roleid = c.roleid) e  on a.userid=e.userid where a.STATUS !='2'";
+        
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        
+        if (CheckUtil.isRequired(model.getUserid())) {
+            sql += " AND a.userid LIKE :userid";
+            parameters.put("userid", '%'+model.getUserid()+'%');
+        }
+        
+        sql += " ORDER BY a.updatetime desc";
+        Page p = dao.findPageBeanBySQL(sql, parameters, page, new BeanUserList());
+        return p;
+    }
+	
+	
+	/**
+	 * 测试用户-保存记录
+	 * 
+	 * @模块名称 测试用户
+	 */
+	public void save(Muser model) throws Exception{
+	    dao.save(model);
+	}
+	
+	/**
+	 * 根据帐号验证是否存在
+	 * <p>模块  企业注册</p>
+	 * @param model
+	 * @return
+	 */
+	@Override
+	public Boolean find03(Muser model) {
+		List<Muser> list=dao.findByModel(model);
+		if(list.size()>0){
+			return false;
+		}else{
+		return true;
+		}
+	}
+	
+	/**
+     * 取得准考证最大值
+     * <p>模块  测试用户导入</p>
+     * @param model
+     * @return
+     */
+    @Override
+    public String find04(String companyid) {
+        String sql = "SELECT MAX(TICKTNO) AS MAXM FROM M_USER WHERE 1=1 AND COMPANYID = '" + companyid +"'";
+        List<Map<String, Object>> listMap = dao.findMapBySQL(sql);
+        if (listMap.size() > 0 && listMap.get(0) != null && listMap.get(0).get("MAXM") != null) {
+            return listMap.get(0).get("MAXM").toString();
+        }
+        
+        return "";
+    }
+    
+    @Override
+    public List<Mrole> findMroleList(String userid) throws Exception{
+    	// 组装SQL
+//    	String sql = "SELECT id, roleid, rolename from m_role where 1=1 ";
+//    	
+//    	 sql += "AND ROLEID in (SELECT DISTINCT t_user_role.ROLEID from t_user_role,m_user where 1=1 and t_user_role.USERID = m_user.USERID)";
+    	
+    	 String sql = "SELECT id, roleid, rolename from m_role,t_user_role where 1=1 ";
+    	 sql += "AND m_role.roleid = t_user_role.roleid ";
+    	 sql += "AND t_user_role.userid = '"+userid+"'";
+    	return dao.findTBySQL(sql, new Mrole());
+    }
+    
+}

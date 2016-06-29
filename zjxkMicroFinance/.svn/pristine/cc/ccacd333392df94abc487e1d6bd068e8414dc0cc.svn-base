@@ -1,0 +1,71 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中金新科小贷手机办公系统</title>
+<link rel="stylesheet"
+	href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script
+	src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+</head>
+<body>
+	<form action="mobileTaskList.do" method="post">
+		<div data-role="page" class="type-home">
+			<div data-role="header">
+				<h1>中金新科</h1>
+			</div>
+			<div id="msg" style="display:none;">${message}</div>
+			<div data-role="content">
+				<div class="ui-body ui-body-c">
+					<div data-role="fieldcontain" class="ui-hide-label">
+						<label for="username">用户名:</label> <input type="text"
+							name="username" id="username" value="" placeholder="用户名" /> <label
+							for="password">密码: </label> <input type="password"
+							name="password" id="password" value="" placeholder="密码" />
+					</div>
+					<fieldset class="ui-grid-a">
+						<div class="ui-block-a" style="width:65%;">
+							<input type="text" name="rand" id="rand" value=""
+								placeholder="验证码"  />
+						</div>
+						<div class="ui-block-b"	style="width:34%;">
+							<div style="vertical-align: middle; line-height: 100%;padding:0.5em 0em 0em 0.5em;">
+								<img name="randImage" id="randImage" src="mobileImage.jsp"
+									onclick="loadimage();" border="1" align="absmiddle"
+									style="cursor: hand;height:2em;width:90%">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="ui-bar ui-bar-a">
+					<div data-role="controlgroup" data-type="horizontal"
+						style="text-align: center;">
+						<button type="submit" data-theme="b" data-role="button"
+							data-inline="true" data-icon="arrow-r">登陆</button>
+						<button type="button" data-theme="c" data-role="button"
+							data-inline="true" data-icon="refresh" onclick="clearAll();">重置</button>
+					</div>
+					<!-- /controlgroup -->
+				</div>
+			</div>
+			<div data-role="footer" class="footer-docs" data-theme="c"></div>
+		</div>
+	</form>
+</body>
+</html>
+
+<script type="text/javascript">
+	function clearAll() {
+		$("input").each(function() {
+			$(this).val("");
+		});
+	}
+	function loadimage() {
+		document.getElementById("randImage").src = "./image.jsp?"
+				+ Math.random();
+	}
+</script>

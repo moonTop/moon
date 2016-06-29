@@ -1,0 +1,85 @@
+package com.yzframework.base;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+public class LogXml {
+    private static final String ELEMENT_MODULE = "MODULE";
+    private static final String ELEMENT_NAME = "NAME";
+    private static final String ELEMENT_URI = "URI";
+    private static final String ELEMENT_VALUE = "VALUE";
+    private static final String ELEMENT_OPNAME = "OPNAME";
+    private static final String ELEMENT_TABLE = "TABLE";
+    private static final String ELEMENT_COLUMN = "COLUMN";
+    private static final String ELEMENT_COMMENT = "COMMENT";
+    
+    private Logger log = Logger.getLogger(this.getClass());  
+    
+    private Map<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
+    
+    public LogXml() throws Exception {
+        SAXReader reader = new SAXReader();
+
+        Document document = reader.read(new File(this.getClass().getResource("/").getPath()+"com/yzframework/base/LogConfig.xml"));
+        Element root = document.getRootElement();
+        List<Element> modules = root.elements(ELEMENT_MODULE);
+        for (Iterator<Element> modulesIt = modules.iterator(); modulesIt.hasNext();) {
+            Element module = (Element) modulesIt.next();
+            
+            String moduleName = module.element(ELEMENT_NAME).getTextTrim();
+            String table = module.element(ELEMENT_TABLE).getTextTrim();
+            Element column = module.element(ELEMENT_COLUMN); 
+            String columnName = column.element(ELEMENT_NAME).getTextTrim();
+            String columnComment = column.element(ELEMENT_COMMENT).getTextTrim();
+
+            List<Element> urls = module.elements(ELEMENT_URI);
+            for (Iterator<Element> urlsIt = urls.iterator(); urlsIt.hasNext();) {
+                Element url = (Element) urlsIt.next();
+                String urlValue = url.element(ELEMENT_VALUE).getTextTrim();
+                String opName = url.element(ELEMENT_OPNAME).getTextTrim();
+                Map<String, String> localMap = new HashMap<String, String>();
+                localMap.put("modluename", moduleName);
+                localMap.put("tablename", table);
+                localMap.put("columnname", columnName);
+                localMap.put("columncomment", columnComment);
+                localMap.put("opname", opName);
+                map.put(urlValue, localMap);
+            }
+        }
+        log.info("LogXml file loaded!");
+    }
+    
+    public boolean hasUri(String uri){
+        if (uri == null) {
+            return false;
+        }
+        for (Iterator<String> it = map.keySet().iterator(); it.hasNext();){
+            String localUri = it.next();
+            if (uri.indexOf(localUri) != -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public Map<String,String> get(String uri){
+        if (uri == null) {
+            return null;
+        }
+        for (Iterator<String> it = map.keySet().iterator(); it.hasNext();){
+            String localUri = it.next();
+            if (uri.indexOf(localUri) != -1) {
+                return map.get(localUri);
+            }
+        }
+        return null;
+    }
+}

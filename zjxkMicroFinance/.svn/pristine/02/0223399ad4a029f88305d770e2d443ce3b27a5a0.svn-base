@@ -1,0 +1,48 @@
+package com.yzframework.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.ZLoanForm;
+import com.yzframework.service.ZLoanFormService;
+
+@Service
+public class ZLoanFormServiceImpl implements ZLoanFormService {
+
+	@Resource
+	private IDAO dao;
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public ZLoanForm findById(String id) throws Exception {
+		return dao.findById(id, new ZLoanForm());
+	}
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void save(ZLoanForm model) throws Exception {
+		dao.save(model);
+	}
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void update(ZLoanForm model) throws Exception {
+		dao.update(model);
+	}
+}

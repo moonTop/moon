@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.yzframework.model">
+    <class name="com.yzframework.model.Mpayrecord" table="M_PAY_RECORD">
+        <comment>还款管理</comment>
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="32">
+                <comment>ID</comment>
+            </column>
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="planpaydate" type="java.sql.Date">
+            <column name="PLANPAYDATE">
+                <comment>预计还款日期</comment>
+            </column>
+        </property>
+        <property name="planpayamount" type="java.math.BigDecimal">
+            <column name="PLANPAYAMOUNT" length="10">
+                <comment>预计还款金额</comment>
+            </column>
+        </property>
+        <property name="paydate" type="java.sql.Date">
+            <column name="PAYDATE">
+                <comment>实际还款日期</comment>
+            </column>
+        </property>
+        <property name="payamount" type="java.math.BigDecimal">
+            <column name="PAYAMOUNT" length="10">
+                <comment>实际还款金额</comment>
+            </column>
+        </property>
+        <property name="payperson" type="java.lang.String">
+            <column name="PAYPERSON" length="32">
+                <comment>还款人</comment>
+            </column>
+        </property>
+        <property name="description" type="java.lang.String">
+            <column name="DESCRIPTION" length="1000">
+                <comment>说明</comment>
+            </column>
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS" length="1">
+                <comment>状态</comment>
+            </column>
+        </property>
+        <property name="createid" type="java.lang.String">
+            <column name="CREATEID" length="32">
+                <comment>创建者ID</comment>
+            </column>
+        </property>
+        <property name="createtime" type="java.sql.Timestamp">
+            <column name="CREATETIME">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateid" type="java.lang.String">
+            <column name="UPDATEID" length="32">
+                <comment>更新者ID</comment>
+            </column>
+        </property>
+        <property name="updatetime" type="java.sql.Timestamp">
+            <column name="UPDATETIME">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+        <many-to-one name="mloanrecord" class="com.yzframework.model.Mloanrecord">
+            <column name="LOANRECORDID"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

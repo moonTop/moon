@@ -1,0 +1,102 @@
+package com.yzframework.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.base.Page;
+import com.yzframework.bean.BeanRoleList;
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.Tauthority;
+import com.yzframework.service.TauthorityService;
+import com.yzframework.utils.CheckUtil;
+
+@Service
+public class TauthorityServiceImpl implements TauthorityService {
+	
+	@Resource
+	private IDAO dao;
+	
+	public void setDao(IDAO dao) {
+		this.dao = dao;
+	}
+    /**
+     * 分页查询
+     * 
+     * @模块名称 角色管理
+     */
+
+	@Override
+	public Page findPageTauthority(Page page, Tauthority model) throws Exception {
+		// 组装Hql
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				String sql = " select fm.modname as modname, mr.rolename as rolename, ta.status as status, ta.id as id from t_authority ta, f_module fm, m_role mr where ta.status = '1' and ta.modid = fm.id and ta.roleid = mr.roleid";
+				
+//				// 部门编码
+//				if (CheckUtil.isRequired(model.getRoleid())) {
+//					sql += " AND mr.rolename LIKE :rolename";
+//					parameters.put("rolename", '%'+model.getRolename()+'%');
+//				}
+				
+				sql += " order by ta.createtime desc";
+				return dao.findPageBeanBySQL(sql, parameters, page, new BeanRoleList());
+	}
+	
+	/**
+	 * 通过主键查询企业详细信息
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Tauthority findById(String id)throws Exception{
+		return dao.findById(id, new Tauthority());
+	}
+
+	/**
+	 * 部门用户-保存记录
+	 * 
+	 * @模块名称 部门
+	 */
+	public void save(Tauthority model) throws Exception{
+	    dao.save(model);
+	}
+
+
+	/**
+     * 根据orgno获取部门信息
+     * 
+     * @模块  通用
+     * 
+     * @param userid
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Tauthority> findByRoleid(String roleid) throws Exception {
+    	Tauthority model = new Tauthority();
+        model.setRoleid(roleid);
+        return dao.findByModel(model);
+    }
+    
+    /**
+	 * 修改部门信息
+	 * 
+	 * @模块     部门信息
+	 * 
+	 * @param muser  
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Tauthority update(Tauthority mrole) throws Exception {
+		dao.update(mrole);
+		return mrole;
+	
+	}
+
+}

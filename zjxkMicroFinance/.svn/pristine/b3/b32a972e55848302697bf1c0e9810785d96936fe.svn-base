@@ -1,0 +1,47 @@
+package com.yzframework.base;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class Model {
+
+	private String id;
+	private Map<String, String> modifiedProperties = new HashMap<String, String>();
+	private String ASCString;
+	private String DESCString;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public Map<String, String> getModifiedProperties() {
+		return modifiedProperties;
+	}
+	public void setModifiedProperties(Map<String, String> modifiedProperties) {
+		this.modifiedProperties = modifiedProperties;
+	}
+	
+	protected void firePropertyChange(String propertyName) {
+		if (modifiedProperties == null) {
+			modifiedProperties = new HashMap<String, String>();
+		}
+	
+		modifiedProperties.put(propertyName, propertyName);
+	}
+	
+	public String getASCString() {
+		return ASCString;
+	}
+	public void setASCString(String aSCString) {
+		ASCString = aSCString;
+	}
+	public String getDESCString() {
+		return DESCString;
+	}
+	public void setDESCString(String dESCString) {
+		DESCString = dESCString;
+	}
+	
+}

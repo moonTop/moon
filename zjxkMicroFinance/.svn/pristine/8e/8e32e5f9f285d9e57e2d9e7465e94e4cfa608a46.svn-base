@@ -1,0 +1,74 @@
+package com.yzframework.base;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.drools.runtime.StatefulKnowledgeSession;
+import org.drools.runtime.process.ProcessInstance;
+import org.jbpm.process.workitem.wsht.LocalHTWorkItemHandler;
+import org.jbpm.task.Comment;
+import org.jbpm.task.Status;
+import org.jbpm.task.Task;
+import org.jbpm.task.query.TaskSummary;
+import org.jbpm.task.service.local.LocalTaskService;
+import org.jbpm.task.utils.OnErrorAction;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class JbpmBase {
+    @Resource
+    private StatefulKnowledgeSession ksession;
+    
+    @Resource
+    private LocalTaskService taskService;
+    
+	/**
+	 * 启动流程
+	 * 
+	 * @param processId 流程ID
+	 * @param userId 流程创建者ID
+	 * @param businessId 业务ID
+	 * 
+	 */
+    protected void createAndStartProcess(String processId, String userId, String businessId) {
+
+		LocalHTWorkItemHandler localHTWorkItemHandler = new LocalHTWorkItemHandler(taskService, ksession,OnErrorAction.RETHROW);
+        localHTWorkItemHandler.connect();
+        ksession.getWorkItemManager().registerWorkItemHandler("Human Task", localHTWorkItemHandler);
+
+        Map<String, Object> processVariables = new HashMap<String, Object>();
+        processVariables.put("businessId", businessId);
+        ProcessInstance processInstance = (ProcessInstance)ksession.startProcess(processId, processVariables);
+        
+        List<Status> statusList = new ArrayList<Status>();
+        statusList.add(Status.Ready);
+        List<TaskSummary> tasks = taskService.getTasksByStatusByProcessIdByTaskName(processInstance.getId(), statusList, "task1", "en-UK");
+
+        taskService.start(tasks.get(0).getId(), userId);
+        taskService.complete(tasks.get(0).getId(), userId, null);
+    }
+    
+	/**
+	 * 开始并结束任务
+	 * 
+	 * @param taskId 任务ID
+	 * @param userId 流程创建者ID
+	 * 
+	 */
+    protected void startAndCompleteTask(String taskId, String userId, String commentText) {
+
+        Task task = taskService.getTask(Long.parseLong(taskId));
+        
+        Comment comment = new Comment();
+        comment.setText(commentText);
+        task.getTaskData().addComment(comment);
+        
+        taskService.start(task.getId(), userId);
+        taskService.complete(task.getId(), userId, null);
+    }
+
+}

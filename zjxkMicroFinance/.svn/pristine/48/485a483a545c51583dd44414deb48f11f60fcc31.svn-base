@@ -1,0 +1,96 @@
+package com.yzframework.controller;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSON;
+import com.yzframework.base.AjaxDone;
+import com.yzframework.base.JbpmBase;
+import com.yzframework.model.Mloanform;
+import com.yzframework.service.MLoanFormService;
+
+@Controller
+@RequestMapping("/views/LoanForm")
+public class MLoanFormController extends JbpmBase {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @Resource
+    private MLoanFormService mLoanFormService;
+    
+	@RequestMapping("/new")
+	public ModelAndView add() throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("mLoanFormNew");
+
+		return mav;
+	}
+	
+	@RequestMapping("/edit/{taskId}/{id}")
+	public ModelAndView edit(@PathVariable String taskId, @PathVariable String id) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		Mloanform model = mLoanFormService.findById(id);
+		
+		mav.addObject("model", model);
+		mav.addObject("taskId", taskId);
+		mav.setViewName("mLoanFormEdit");
+
+		return mav;
+	}
+	
+	@RequestMapping("/show/{taskId}/{id}")
+	public ModelAndView show(@PathVariable String taskId, @PathVariable String id) throws Exception {
+		
+		Mloanform model = mLoanFormService.findById(id);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("model", model);
+		mav.addObject("taskId", taskId);
+		mav.setViewName("mLoanFormShow");
+
+		return mav;
+	}
+	
+	@RequestMapping("/save")
+	@ResponseBody
+	public String save(Mloanform model,String navTabId, HttpSession session) throws Exception {
+		AjaxDone ajaxDone = new AjaxDone();
+		try{
+			mLoanFormService.save(model);
+			super.createAndStartProcess("LoanProcess", (String)session.getAttribute("CURRENT_USER"), model.getId());
+	       
+			ajaxDone.setStatusCode(AjaxDone.SUCCESS);
+		}catch(Exception e){
+	        logger.error(null, e);
+			ajaxDone.setStatusCode(AjaxDone.FAIL);
+			ajaxDone.setMessage(AjaxDone.FAIL_MSG);
+		}
+		
+		return JSON.toJSONString(ajaxDone);
+	}
+	
+	@RequestMapping("/update")
+	@ResponseBody
+	public String update(Mloanform model, String taskId, HttpSession session, String commentText) throws Exception {
+		AjaxDone ajaxDone = new AjaxDone();
+		try{
+			super.startAndCompleteTask(taskId, (String)session.getAttribute("CURRENT_USER"), commentText);
+	       
+			ajaxDone.setStatusCode(AjaxDone.SUCCESS);
+		}catch(Exception e){
+	        logger.error(null, e);
+			ajaxDone.setStatusCode(AjaxDone.FAIL);
+			ajaxDone.setMessage(AjaxDone.FAIL_MSG);
+		}
+		
+		return JSON.toJSONString(ajaxDone);
+	}
+}

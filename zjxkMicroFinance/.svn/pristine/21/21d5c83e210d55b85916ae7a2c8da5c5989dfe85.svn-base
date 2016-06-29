@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="/WEB-INF/tld/c.tld"%>
+<div class="pageContent">
+    <div id="notepad" class="pageFormContent" layoutH="56"/>
+</div>
+<script type="text/javascript">
+    var paper = Raphael("notepad", 600, 400);
+    var endNodeId;
+    // 创建所有节点
+    <c:forEach var="node" items="${allNodes}">
+        var node;
+        if ("StartProcess" == "${node.name}"){
+        	node = paper.image("../imgs/bpmn2/start_empty.png", ${node.metaData.x}, ${node.metaData.y}, ${node.metaData.width}, ${node.metaData.height});
+        } else if ("End" == "${node.name}") {
+        	node = paper.image("../imgs/bpmn2/end_empty.png", ${node.metaData.x}, ${node.metaData.y}, ${node.metaData.width}, ${node.metaData.height});
+        	endNodeId = "${node.id}";
+        } else {
+        	node = paper.rect(${node.metaData.x}, ${node.metaData.y}, ${node.metaData.width}, ${node.metaData.height}, 10);
+        	node.attr({
+        	     fill: 'yellow',
+        	     stroke: '#000',
+        	     'fill-opacity': '0.5'
+        	});
+        }
+        node.id = "${node.id}";
+    </c:forEach>
+    
+    // 创建节点名称
+    <c:forEach var="node" items="${allNodes}">
+	    if ("StartProcess" != "${node.name}" && "End" != "${node.name}"){
+	        var t = paper.text(${node.metaData.x} + 30, ${node.metaData.y} + ${node.metaData.height}/2, "${node.name}");
+	        t.attr({
+	            'font-size' : 12,
+	            'text-anchor': 'start'
+	        });
+            var human = paper.path("M28.523,23.813c-0.518-0.51-6.795-2.938-7.934-3.396c-1.132-0.451-1.584-1.697-1.584-1.697s-0.51,0.282-0.51-0.51c0-0.793,0.51,0.51,1.021-2.548c0,0,1.414-0.397,1.133-3.68l-0.338,0.001c0,0,0.85-3.511,0-4.699c-0.854-1.188-1.188-1.981-3.062-2.548c-1.869-0.567-1.188-0.454-2.547-0.396c-1.359,0.057-2.492,0.793-2.492,1.188c0,0-0.849,0.057-1.188,0.397c-0.34,0.34-0.906,1.924-0.906,2.32s0.283,3.059,0.566,3.624l-0.337,0.112c-0.283,3.283,1.132,3.681,1.132,3.681c0.509,3.058,1.019,1.755,1.019,2.548c0,0.792-0.51,0.51-0.51,0.51s-0.452,1.246-1.584,1.697c-1.132,0.453-7.416,2.887-7.927,3.396c-0.511,0.521-0.453,2.896-0.453,2.896h12.036l0.878-3.459l-0.781-0.781l1.344-1.344l1.344,1.344l-0.781,0.781l0.879,3.459h12.035C28.977,26.709,29.039,24.332,28.523,23.813z").attr({fill: "#000", stroke: "none"});
+            var point = ["t", ${node.metaData.x}, ${node.metaData.y} + ${node.metaData.height}/2-16].join(",");
+            human.transform(point);
+	    }
+    </c:forEach>
+    
+    // 创建节点连线
+    <c:forEach var="connection" items="${connections}">
+        var fromNodeId = "${connection.from.id}";
+        var toNodeId = "${connection.to.id}";
+
+        var bboxFrom = paper.getById(fromNodeId).getBBox();
+        var bboxTo = paper.getById(toNodeId).getBBox();
+        var path = ["M", bboxFrom.cx, bboxFrom.cy, "L", bboxTo.cx, bboxTo.cy].join(",");
+        
+        var lines = [];
+        lines.push(["M", bboxFrom.x, bboxFrom.y, "H",bboxFrom.x+bboxFrom.width].join(","));
+        lines.push(["M", bboxFrom.x, bboxFrom.y, "V",bboxFrom.y+bboxFrom.height].join(","));
+        lines.push(["M", bboxFrom.x2, bboxFrom.y2, "H",bboxFrom.x2-bboxFrom.width].join(","));
+        lines.push(["M", bboxFrom.x2, bboxFrom.y2, "V",bboxFrom.y2-bboxFrom.height].join(","));
+        lines.push(["M", bboxTo.x, bboxTo.y, "H",bboxTo.x+bboxTo.width].join(","));
+        lines.push(["M", bboxTo.x, bboxTo.y, "V",bboxTo.y+bboxTo.height].join(","));
+        lines.push(["M", bboxTo.x2, bboxTo.y2, "H",bboxTo.x2-bboxTo.width].join(","));
+        lines.push(["M", bboxTo.x2, bboxTo.y2, "V",bboxTo.y2-bboxTo.height].join(","));
+        
+        var arrowPath = [];
+        for(var i=0; i<lines.length; i++){
+        	var intersection = Raphael.pathIntersection(path, lines[i]);
+        	if(intersection != null && intersection.length > 0){
+        		arrowPath.push(intersection[0].x);
+        		arrowPath.push(intersection[0].y);
+        	}
+        }
+        arrowPath.splice(0,0,"M");
+        arrowPath.splice(3,0,"L");
+        paper.path(arrowPath.join(",")).attr({stroke: 'blue', fill: "none", 'arrow-end': "block-wide-long", 'stroke-width': 2});
+    </c:forEach>
+
+    // 当前节点
+    var hasCurrentNode = false;
+    <c:forEach var="node" items="${currentNodes}">
+	    var id = "${node.id}";
+	    paper.getById(id).attr({
+	        fill: 'green',
+	        stroke: '#000',
+	        'fill-opacity': '0.5'
+	   });
+	   hasCurrentNode = true;
+    </c:forEach>
+    
+    // 流程结束
+    if(!hasCurrentNode){
+    	paper.getById(endNodeId).attr({src: "../imgs/bpmn2/end_terminate.png"});
+    }
+
+</script>

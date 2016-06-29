@@ -1,0 +1,63 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="/WEB-INF/tld/c.tld"%>
+<div class="pageContent">
+    <div id="notepad" class="pageFormContent" layoutH="56"/>
+</div>
+<script type="text/javascript">
+    var paper = Raphael("notepad", 600, 400);
+    var endNodeId;
+    // 创建所有节点
+    <c:forEach var="node" items="${allNodes}">
+        var node;
+        if ("StartProcess" == "${node.name}"){
+        	node = paper.image("../imgs/bpmn2/start_empty.png", ${node.metaData.x}, ${node.metaData.y}, ${node.metaData.width}, ${node.metaData.height});
+        } else if ("End" == "${node.name}") {
+        	node = paper.image("../imgs/bpmn2/end_empty.png", ${node.metaData.x}, ${node.metaData.y}, ${node.metaData.width}, ${node.metaData.height});
+        	endNodeId = "${node.id}";
+        } else {
+        	node = paper.rect(${node.metaData.x}, ${node.metaData.y}, ${node.metaData.width}, ${node.metaData.height}, 10);
+        	node.attr({
+        	     fill: 'yellow',
+        	     stroke: '#000',
+        	     'fill-opacity': '0.5'
+        	});
+        }
+        node.id = "${node.id}";
+    </c:forEach>
+    
+    // 创建节点名称
+    <c:forEach var="node" items="${allNodes}">
+	    if ("StartProcess" != "${node.name}" && "End" != "${node.name}"){
+	        var t = paper.text(${node.metaData.x} + 10, ${node.metaData.y} + ${node.metaData.height}/2, "${node.name}");
+	        t.attr({
+	            'font-size' : 12,
+	            'text-anchor': 'start'
+	        });
+	    }
+    </c:forEach>
+    
+    // 创建节点连线
+    <c:forEach var="connection" items="${connections}">
+        var fromNodeId = "${connection.from.id}";
+        var toNodeId = "${connection.to.id}";
+        paper.connection(paper.getById(fromNodeId), paper.getById(toNodeId));
+    </c:forEach>
+
+    // 当前节点
+    var hasCurrentNode = false;
+    <c:forEach var="node" items="${currentNodes}">
+	    var id = "${node.id}";
+	    paper.getById(id).attr({
+	        fill: 'green',
+	        stroke: '#000',
+	        'fill-opacity': '0.5'
+	   });
+	    hasCurrentNode = true;
+    </c:forEach>
+    
+    // 流程结束
+    if(!hasCurrentNode){
+    	paper.getById(endNodeId).attr({src: "../imgs/bpmn2/end_terminate.png"});
+    }
+
+</script>

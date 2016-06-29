@@ -1,0 +1,709 @@
+package com.yzframework.dao.impl;
+
+import com.yzframework.base.ActionContext;
+import com.yzframework.base.SessionInfo;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.cxf.common.util.StringUtils;
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
+import org.springframework.stereotype.Repository;
+
+import com.yzframework.base.Model;
+import com.yzframework.base.Page;
+import com.yzframework.dao.IDAO;
+
+@Repository
+public class IDAOImpl implements IDAO {
+
+	private static final long serialVersionUID = -3088947343883570476L;
+
+	// 日志文件写入类
+	private final Logger logger = Logger.getLogger(this.getClass());
+
+	@Resource
+	private SessionFactory sessionFactory;
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	/**
+	 * 获取Hibreate连接会话
+	 * 
+	 * @return
+	 */
+	protected Session getSession() {
+		return sessionFactory.getCurrentSession();
+	}
+
+	/**
+	 * 表主键查询
+	 * 
+	 * @param id 主键ID
+	 * @param clazz model 查询实体类型
+	 * 
+	 * @return 实体
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T findById(final String id, T t) {
+		return (T) this.getSession().get(t.getClass(), id);
+	}
+
+	/**
+	 * 通过model实体,自动生成SQL条件查询
+	 * 
+	 * @param model 查询实体
+	 * 
+	 * @return 实体
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findByModel(Model model) {
+
+		// 获取会话
+		Session session = this.getSession();
+
+		// 创建查询语句
+		Criteria criteria = session.createCriteria(model.getClass());
+		criteria.add(Example.create(model));
+
+		// 升序字段
+		if (!StringUtils.isEmpty(model.getASCString())) {
+			criteria.addOrder(Order.asc(model.getASCString()));
+		}
+
+		// 降序字段
+		if (!StringUtils.isEmpty(model.getDESCString())) {
+			criteria.addOrder(Order.desc(model.getDESCString()));
+		}
+		return (List<T>) criteria.list();
+	}
+
+	/**
+	 * HQL语句查询前N条数据
+	 * 
+	 * @param hql 查询hql语句
+	 * @param top 查询件数
+	 * 
+	 * @return 实体
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findTopByHql(String hql, String top) {
+		// 获取会话
+		Session session = this.getSession();
+
+		// 创建查询语句
+		Query query = session.createQuery(hql);
+		query.setMaxResults(Integer.valueOf(top));
+
+		// 返回查询结果
+		return (List<T>) query.list();
+	}
+
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql SQL查询语句
+	 * 
+	 * @return 实体集合
+	 */
+	@Override
+	public <T> List<T> findTByHql(final String hql) {
+		Map<String, Object> parameters = null;
+		return findTByHql(hql, parameters);
+	}
+
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql SQL查询语句
+	 * 
+	 * @return 实体集合
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findTByHql(final String hql, Map<String, Object> parameters) {
+		Session session = this.getSession();
+		Query query = session.createQuery(hql);
+		// 参数编辑
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+		return (List<T>) query.list();
+	}
+
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql HQL查询语句
+	 * @param T 查询结果存放实体
+	 * 
+	 * @return 实体集合
+	 */
+	@Override
+	public <T> List<T> findTByHql(final String hql, T t) {
+		Map<String, Object> parameters = null;
+		return findTByHql(hql, parameters, t);
+	}
+
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql HQL查询语句
+	 * @param T 查询结果存放实体
+	 * 
+	 * @return 实体集合
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findTByHql(final String hql, Map<String, Object> parameters, T t) {
+		Session session = this.getSession();
+		Query query = session.createQuery(hql).setResultTransformer(Transformers.aliasToBean((t.getClass())));
+
+		// 参数编辑
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+
+		return (List<T>) query.list();
+	}
+
+	/**
+	 * HQL查询COUNT
+	 * 
+	 * @param hql SQL查询语句
+	 * @param page Page对象
+	 * 
+	 * @return Page对象
+	 */
+	@Override
+	public Long countByHql(final String model) {
+
+		Session session = this.getSession();
+
+		String cntHql = "select count(*) from " + model;
+		Query cntQuery = session.createQuery(cntHql);
+		cntQuery.setMaxResults(1);
+		return (Long) cntQuery.uniqueResult();
+	}
+
+	/**
+	 * 获取最大值
+	 * 
+	 * @param hql SQL查询语句
+	 * 
+	 * @return 最大值
+	 */
+	@Override
+	public Integer findMaxByHql(final String hql) {
+		Session session = this.getSession();
+		Query query = session.createQuery(hql);
+		return (Integer) query.uniqueResult();
+	}
+
+	/**
+	 * SQL查询,结果以MapList返回
+	 * 
+	 * @param sql SQL查询语句
+	 * 
+	 * @return 实体集合
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> findMapBySQL(final String sql) {
+		Session session = this.getSession();
+		SQLQuery query = (SQLQuery) session.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+		return (List<Map<String, Object>>) query.list();
+	}
+
+	/**
+	 * SQL查询,结果以实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return 实体集合
+	 */
+	@Override
+	public <T> List<T> findTBySQL(final String sql, T t) {
+		Map<String, Object> parameters = null;
+		return findTBySQL(sql, parameters, t);
+	}
+
+	/**
+	 * SQL查询,结果以实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return 实体集合
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findTBySQL(final String sql, Map<String, Object> parameters, T t) {
+
+		Session session = this.getSession();
+		SQLQuery query = (SQLQuery) session.createSQLQuery(sql).setResultTransformer(
+		        Transformers.aliasToBean((t.getClass())));
+
+		// 参数编辑
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+
+		return (List<T>) query.list();
+	}
+
+	/**
+	 * SQL查询,结果以自定义Bean实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return 实体List
+	 */
+	@Override
+	public <T> List<T> findBeanBySQL(final String sql, T t) {
+		return findBeanBySQL(sql, null, t);
+	}
+
+	/**
+	 * SQL查询,结果以自定义Bean实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return 实体List
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findBeanBySQL(final String sql, Map<String, Object> parameters, T t) {
+
+		Session session = this.getSession();
+		SQLQuery query = (SQLQuery) session.createSQLQuery(sql).setResultTransformer(
+		        Transformers.aliasToBean((t.getClass())));
+		Field fields[] = t.getClass().getDeclaredFields();
+		for (Field f : fields) {
+			if (String.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.STRING);
+			} else if (Timestamp.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.TIMESTAMP);
+			} else if (Double.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.DOUBLE);
+			} else if (BigDecimal.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.BIG_DECIMAL);
+			} else if (Integer.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.INTEGER);
+			}
+		}
+		// 参数编辑
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+		return query.list();
+	}
+
+	/**
+	 * HQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param hql SQL查询语句
+	 * @param page Page对象
+	 * 
+	 * @return Page对象
+	 */
+	@Override
+	public Page findPageByHql(final String hql, final Page page) {
+
+		return findPageByHql(hql, null, page);
+	}
+
+	/**
+	 * HQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param hql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param page Page对象
+	 * 
+	 * @return Page对象
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Page findPageByHql(final String hql, final Map<String, Object> parameters, final Page page) {
+
+		Session session = this.getSession();
+
+		// 编辑查询件数SQL
+		int startIdx = hql.toUpperCase().indexOf("FROM");
+		int endIdx = hql.toUpperCase().indexOf("ORDER BY");
+
+		// 总件数查询
+		String cntHql = "";
+		if (endIdx != -1) {
+			cntHql = "select count(*) " + hql.substring(startIdx, endIdx);
+		} else {
+			cntHql = "select count(*) " + hql.substring(startIdx);
+		}
+
+		Query cntQuery = session.createQuery(cntHql);
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				cntQuery.setParameter(key, parameters.get(key));
+			}
+		}
+		cntQuery.setMaxResults(1);
+		long totalCount = (Long) cntQuery.uniqueResult();
+
+		// 内容查询
+		Query query = session.createQuery(hql);
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+		query.setFirstResult((page.getPageNum() - 1) * page.getNumPerPage());
+		query.setMaxResults(page.getNumPerPage());
+
+		page.setResultList(query.list());
+		page.setTotalCount(totalCount);
+
+		return page;
+	}
+
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param page Page对象
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return Page对象
+	 */
+	@Override
+	public <T> Page findPageBySQL(final String sql, final Page page, T t) {
+		Map<String, Object> parameters = null;
+		return findPageBySQL(sql, parameters, page, t);
+	}
+
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param page Page对象
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return Page对象
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> Page findPageBySQL(final String sql, Map<String, Object> parameters, final Page page, T t) {
+
+		Session session = this.getSession();
+
+		// 编辑查询件数SQL
+		int startIdx = sql.toUpperCase().indexOf("FROM");
+		int endIdx = sql.toUpperCase().indexOf("ORDER BY");
+		String countSql = "";
+		if (endIdx != -1) {
+			countSql = "SELECT COUNT(*) " + sql.substring(startIdx, endIdx);
+		} else {
+			countSql = "SELECT COUNT(*) " + sql.substring(startIdx);
+		}
+
+		SQLQuery countQuery = session.createSQLQuery(countSql);
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				countQuery.setParameter(key, parameters.get(key));
+			}
+		}
+		// 获取最大件数
+		long totalCount = ((Integer) countQuery.uniqueResult()).longValue();
+
+		// 编辑查询内容SQL
+		SQLQuery query = (SQLQuery) session.createSQLQuery(sql).setResultTransformer(
+		        Transformers.aliasToBean((t.getClass())));
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+		// 设置查询起至件数
+		query.setFirstResult((page.getPageNum() - 1) * page.getNumPerPage());
+		query.setMaxResults(page.getNumPerPage());
+
+		page.setResultList(query.list());
+		page.setTotalCount(totalCount);
+
+		return page;
+	}
+
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param page Page对象
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return Page对象
+	 */
+	@Override
+	public <T> Page findPageBeanBySQL(final String sql, final Page page, T t) {
+		return findPageBeanBySQL(sql, null, page, t);
+	}
+
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param page Page对象
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return Page对象
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> Page findPageBeanBySQL(final String sql, Map<String, Object> parameters, final Page page, T t) {
+
+		Session session = this.getSession();
+		// 总件数查询
+		int startIdx = sql.toUpperCase().indexOf("FROM");
+		int endIdx = sql.toUpperCase().indexOf("ORDER BY");
+		String countSql = "";
+		if (endIdx != -1) {
+			countSql = "SELECT COUNT(*) " + sql.substring(startIdx, endIdx);
+		} else {
+			countSql = "SELECT COUNT(*) " + sql.substring(startIdx);
+		}
+		SQLQuery countQuery = session.createSQLQuery(countSql);
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				countQuery.setParameter(key, parameters.get(key));
+			}
+		}
+		long totalCount = ((BigInteger) countQuery.uniqueResult()).longValue();
+
+		// 内容查询
+		SQLQuery query = (SQLQuery) session.createSQLQuery(sql).setResultTransformer(
+		        Transformers.aliasToBean((t.getClass())));
+		Field fields[] = t.getClass().getDeclaredFields();
+		for (Field f : fields) {
+			if (String.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.STRING);
+			} else if (Timestamp.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.TIMESTAMP);
+			} else if (Double.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.DOUBLE);
+			} else if (BigDecimal.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.BIG_DECIMAL);
+			} else if (Integer.class.equals(f.getType())) {
+				query.addScalar(f.getName(), StandardBasicTypes.INTEGER);
+			}
+		}
+		if (parameters != null) {
+			Iterator<String> it = parameters.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+		query.setFirstResult((page.getPageNum() - 1) * page.getNumPerPage());
+		query.setMaxResults(page.getNumPerPage());
+
+		page.setResultList(query.list());
+		page.setTotalCount(totalCount);
+
+		return page;
+	}
+
+	/**
+	 * 插入数据
+	 * 
+	 * @param model 实体
+	 */
+	@Override
+	public void save(Model model) {
+		this.setCommonField(model);
+		if ("".equals(model.getId())) {
+			model.setId(null);
+		}
+		this.getSession().persist(model);
+	}
+
+	/**
+	 * 更新数据
+	 * 
+	 * @param model 更新实体
+	 * 
+	 */
+	@Override
+	public void update(Model model) throws Exception {
+		Map<String, String> changedProperties = model.getModifiedProperties();
+
+		if (changedProperties.isEmpty()) {
+			return;
+		}
+		this.setCommonField(model);
+		String id = model.getId();
+		Model entity = (Model) this.getSession().get(model.getClass(), id);
+
+		Iterator<String> it = changedProperties.keySet().iterator();
+		while (it.hasNext()) {
+			String propertyName = it.next();
+			try {
+				Method getXXX = model.getClass().getDeclaredMethod(
+				        "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1));
+				Class<?> rtnType = getXXX.getReturnType();
+				Method setXXX = entity.getClass().getDeclaredMethod(
+				        "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), rtnType);
+				setXXX.invoke(entity, getXXX.invoke(model));
+			} catch (Exception e) {
+				throw new Exception("数据更新失败！", e);
+			}
+		}
+
+		this.getSession().update(entity);
+	}
+
+	/**
+	 * 批量更新
+	 * 
+	 * @param ids 集合MAP
+	 */
+	@Override
+	public int batchUpdate(List<Map<String, Model>> ids) throws Exception {
+		int updCount = 0;
+		for (Map<String, Model> map : ids) {
+			if (!map.isEmpty()) {
+				String id = map.keySet().iterator().next();
+				Model model = map.get(id);
+				this.update(model);
+
+				if (updCount++ % 20 == 0) {
+					this.getSession().flush();
+					this.getSession().clear();
+				}
+			}
+		}
+		return updCount;
+	}
+
+	/**
+	 * 删除数据
+	 * 
+	 * @param model 实体
+	 */
+	@Override
+	public void delete(Model model) {
+		this.getSession().delete(model);
+	}
+
+	/**
+	 * 批量删除
+	 * 
+	 * @param ids 主键数组
+	 * @param calzz 实体类型
+	 * 
+	 */
+	@Override
+	public <T> int batchDelete(String[] ids, T t) throws Exception {
+		int delCount = 0;
+		for (String id : ids) {
+			if (StringUtils.isEmpty(id)) {
+				continue;
+			}
+
+			Model model = (Model) this.getSession().get(t.getClass(), id);
+			if (model == null) {
+				logger.error("数据不存在。class=[" + t.getClass().getName() + "] id=[" + id + "]");
+				throw new Exception("数据不存在。class=[" + t.getClass().getName() + "] id=[" + id + "]");
+			}
+
+			this.delete(model);
+			if (delCount++ % 20 == 0) {
+				this.getSession().flush();
+				this.getSession().clear();
+			}
+		}
+		return delCount;
+	}
+
+	/**
+	 * 执行(插入,修改,删除)SQL语句
+	 * 
+	 * @param sql SQL语句
+	 * 
+	 * @return 受影响的数据件数
+	 */
+	@Override
+	public int executeSQL(final String sql) {
+		SQLQuery q = (SQLQuery) this.getSession().createSQLQuery(sql);
+		return q.executeUpdate();
+	}
+	/**
+	 * 共通字段的设值
+	 * 
+	 * @param Model model
+	 * 
+	 */
+	private void setCommonField(Model model) {
+		SessionInfo sessionInfo = ActionContext.getSession();
+		String userId = sessionInfo.getUserid();
+		long sysTime = System.currentTimeMillis();
+		if ("".equals(model.getId())) {
+			model.setCreateid(userId);
+			model.setCreatetime(new Timestamp(sysTime));
+		}
+		model.setUpdateid(userId);
+		model.setUpdatetime(new Timestamp(sysTime));
+	}
+}

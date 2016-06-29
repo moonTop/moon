@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.yzframework.model">
+    <class name="com.yzframework.model.Mapply" table="M_APPLY">
+        <comment>在线申请</comment>
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="32">
+                <comment>ID</comment>
+            </column>
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="loantype" type="java.lang.String">
+            <column name="LOANTYPE" length="10">
+                <comment>贷款类型</comment>
+            </column>
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" length="32">
+                <comment>申请人姓名</comment>
+            </column>
+        </property>
+        <property name="sex" type="java.lang.String">
+            <column name="SEX" length="32">
+                <comment>申请人性别</comment>
+            </column>
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="PHONE" length="32">
+                <comment>手机号码</comment>
+            </column>
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="EMAIL" length="32">
+                <comment>电子邮箱</comment>
+            </column>
+        </property>
+        <property name="loanamount" type="java.math.BigDecimal">
+            <column name="LOANAMOUNT" length="32">
+                <comment>贷款金额</comment>
+            </column>
+        </property>
+        <property name="unittelephone" type="java.lang.String">
+            <column name="UNITTELEPHONE" length="32">
+                <comment>单位电话</comment>
+            </column>
+        </property>
+        <property name="companyname" type="java.lang.String">
+            <column name="COMPANYNAME" length="100">
+                <comment>企业名称</comment>
+            </column>
+        </property>
+        <property name="companyproper" type="java.lang.String">
+            <column name="COMPANYPROPER" length="50">
+                <comment>企业性质</comment>
+            </column>
+        </property>
+        <property name="companyaddress" type="java.lang.String">
+            <column name="COMPANYADDRESS" length="200">
+                <comment>企业所在地</comment>
+            </column>
+        </property>
+        <property name="housedistrict" type="java.lang.String">
+            <column name="HOUSEDISTRICT" length="100">
+                <comment>房屋所在区域</comment>
+            </column>
+        </property>
+        <property name="houseloanflg" type="java.lang.String">
+            <column name="HOUSELOANFLG" length="2">
+                <comment>是否有房屋贷款</comment>
+            </column>
+        </property>
+        <property name="housearea" type="java.lang.String">
+            <column name="HOUSEAREA" length="32">
+                <comment>抵押房屋面积</comment>
+            </column>
+        </property>
+        <property name="houseage" type="java.lang.String">
+            <column name="HOUSEAGE" length="10">
+                <comment>房龄</comment>
+            </column>
+        </property>
+        <property name="houseaddress" type="java.lang.String">
+            <column name="HOUSEADDRESS" length="200">
+                <comment>房屋地址</comment>
+            </column>
+        </property>
+        <property name="carbuydate" type="java.lang.String">
+            <column name="CARBUYDATE" length="2">
+                <comment>车辆购置时间</comment>
+            </column>
+        </property>
+        <property name="carcity" type="java.lang.String">
+            <column name="CARCITY" length="32">
+                <comment>车辆登记城市</comment>
+            </column>
+        </property>
+        <property name="carprice" type="java.math.BigDecimal">
+            <column name="CARPRICE" length="10">
+                <comment>车辆购置价格</comment>
+            </column>
+        </property>
+        <property name="applydate" type="java.sql.Timestamp">
+            <column name="APPLYDATE">
+                <comment>申请日期</comment>
+            </column>
+        </property>
+        <property name="description" type="java.lang.String">
+            <column name="DESCRIPTION" length="500">
+                <comment>备注</comment>
+            </column>
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS" length="1">
+                <comment>状态</comment>
+            </column>
+        </property>
+        <property name="createid" type="java.lang.String">
+            <column name="CREATEID" length="32">
+                <comment>创建者ID</comment>
+            </column>
+        </property>
+        <property name="createtime" type="java.sql.Timestamp">
+            <column name="CREATETIME">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateid" type="java.lang.String">
+            <column name="UPDATEID" length="32">
+                <comment>更新者ID</comment>
+            </column>
+        </property>
+        <property name="updatetime" type="java.sql.Timestamp">
+            <column name="UPDATETIME">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

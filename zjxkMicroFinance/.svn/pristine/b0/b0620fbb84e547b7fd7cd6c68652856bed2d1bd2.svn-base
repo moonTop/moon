@@ -1,0 +1,15 @@
+package com.yzframework.service;
+
+import com.yzframework.model.Mapply;
+
+public interface ApplyService {
+
+	/**
+	 *  申请信息保存
+	 * 
+	 * @return Map
+	 * @throws Exception
+	 */
+	public void save(Mapply model) throws Exception;
+
+}

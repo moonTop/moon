@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="/WEB-INF/tld/c.tld" %>
+<div class="pageContent">
+    <form id="loanForm" method="post" action="LoanForm/save.do" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+        <div class="pageFormContent" layoutH="56">
+            <div class="titleBar">
+                <div class="navTitle">小额贷款申请单/</div><div class="pageTitle">提交申请</div>
+                <img src="../themes/default/images/help.gif" title=""/>
+            </div>
+            <dl>
+                <dt>申请人：</dt>
+                <dd><input type="text" id="name" name="name"></input></<dd>
+            </dl>
+            <dl>
+                <dt>年龄：</dt>
+                <dd><input type="text" id="age" name="age"></input></dd>
+            </dl>
+            <dl>
+                <dt>地址：</dt>
+                <dd><input type="text" id="address" name="address" ></input></dd>
+            </dl>
+            <dl>
+                <dt>企业名称：</dt>
+                <dd><input type="text" id="companyname" name="companyname"></input></dd>
+            </dl>
+
+        </div>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+                <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+            </ul>
+        </div>
+    </form>
+</div>

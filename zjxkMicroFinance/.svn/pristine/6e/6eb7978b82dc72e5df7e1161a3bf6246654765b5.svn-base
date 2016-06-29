@@ -1,0 +1,131 @@
+package com.yzframework.model;
+
+import com.yzframework.base.Model;
+import java.io.Serializable;
+import java.sql.Timestamp;
+/**
+ * 日志管理
+ * @author yuzhuo
+ */
+public class ZLog extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
+    public ZLog(){}
+
+    /// 自定义区域 开始
+
+    /// 自定义区域 结束
+
+    /// 工具生成区域 开始
+    private String id;
+    public String getID() {
+        return id;
+    }
+    public void setID(String id) {
+        this.firePropertyChange("id");
+        this.id = id;
+    }
+    private String modulename;
+    public String getMOdulename() {
+        return modulename;
+    }
+    public void setMOdulename(String modulename) {
+        this.firePropertyChange("modulename");
+        this.modulename = modulename;
+    }
+    private String opstyle;
+    public String getOPstyle() {
+        return opstyle;
+    }
+    public void setOPstyle(String opstyle) {
+        this.firePropertyChange("opstyle");
+        this.opstyle = opstyle;
+    }
+    private String opcontent;
+    public String getOPcontent() {
+        return opcontent;
+    }
+    public void setOPcontent(String opcontent) {
+        this.firePropertyChange("opcontent");
+        this.opcontent = opcontent;
+    }
+    private Timestamp optime;
+    public Timestamp getOPtime() {
+        return optime;
+    }
+    public void setOPtime(Timestamp optime) {
+        this.firePropertyChange("optime");
+        this.optime = optime;
+    }
+    private String opperson;
+    public String getOPperson() {
+        return opperson;
+    }
+    public void setOPperson(String opperson) {
+        this.firePropertyChange("opperson");
+        this.opperson = opperson;
+    }
+    private String orgno;
+    public String getORgno() {
+        return orgno;
+    }
+    public void setORgno(String orgno) {
+        this.firePropertyChange("orgno");
+        this.orgno = orgno;
+    }
+    private String status;
+    public String getSTatus() {
+        return status;
+    }
+    public void setSTatus(String status) {
+        this.firePropertyChange("status");
+        this.status = status;
+    }
+    private String createid;
+    public String getCReateid() {
+        return createid;
+    }
+    public void setCReateid(String createid) {
+        this.firePropertyChange("createid");
+        this.createid = createid;
+    }
+    private Timestamp createtime;
+    public Timestamp getCReatetime() {
+        return createtime;
+    }
+    public void setCReatetime(Timestamp createtime) {
+        this.firePropertyChange("createtime");
+        this.createtime = createtime;
+    }
+    private String updateid;
+    public String getUPdateid() {
+        return updateid;
+    }
+    public void setUPdateid(String updateid) {
+        this.firePropertyChange("updateid");
+        this.updateid = updateid;
+    }
+    private Timestamp updatetime;
+    public Timestamp getUPdatetime() {
+        return updatetime;
+    }
+    public void setUPdatetime(Timestamp updatetime) {
+        this.firePropertyChange("updatetime");
+        this.updatetime = updatetime;
+    }
+    private ZOrganization zorganization;
+    public ZOrganization getZOrganization() {
+        return zorganization;
+    }
+    public void setZOrganization(ZOrganization zorganization) {
+        this.firePropertyChange("zorganization");
+        this.zorganization = zorganization;
+    }
+
+    public String toJSONString(){
+        String orgno = (zorganization!=null)?zorganization.getId():"";
+        return "{\"id\":\"" + id + "\",\"modulename\":\"" + modulename + "\",\"opstyle\":\"" + opstyle + "\",\"opcontent\":\"" + opcontent + "\",\"optime\":\"" + optime + "\",\"opperson\":\"" + opperson + "\",\"orgno\":\"" + orgno + "\",\"status\":\"" + status + "\",\"createid\":\"" + createid + "\",\"createtime\":\"" + createtime + "\",\"updateid\":\"" + updateid + "\",\"updatetime\":\"" + updatetime + "\"}";
+    }
+    /// 工具生成区域 结束
+}

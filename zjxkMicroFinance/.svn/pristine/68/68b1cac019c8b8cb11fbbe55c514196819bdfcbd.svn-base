@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.yzframework.model.FMenuLevel1" table="F_MENU_LEVEL_1">
+        <id name="menuId" type="java.lang.Integer">
+            <column name="MENU_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="menuName" type="java.lang.String">
+            <column name="MENU_NAME" not-null="true" />
+        </property>
+        <property name="displayFlg" type="java.lang.Integer">
+            <column name="DISPLAY_FLG" not-null="true" />
+        </property>
+        <property name="endFlg" type="java.lang.Integer">
+            <column name="END_FLG" not-null="true" />
+        </property>
+        <property name="imagePath" type="java.lang.String">
+            <column name="IMAGE_PATH" length="200" />
+        </property>
+        <property name="sort" type="java.lang.Integer">
+            <column name="SORT" not-null="true" />
+        </property>
+        <property name="moduleFlg" type="java.lang.String">
+            <column name="MODULE_FLG" length="1" />
+        </property>
+        <property name="moduleSort" type="java.lang.String">
+            <column name="MODULE_SORT" length="1" />
+        </property>
+        <property name="menuLevel" type="java.lang.Integer">
+            <column name="MENU_LEVEL" />
+        </property>
+        <property name="createTime" type="java.sql.Timestamp">
+            <column name="CREATE_TIME" length="23" />
+        </property>
+        <property name="createUserId" type="java.lang.String">
+            <column name="CREATE_USER_ID" length="20" />
+        </property>
+        <property name="updateTime" type="java.sql.Timestamp">
+            <column name="UPDATE_TIME" length="23" />
+        </property>
+        <property name="updateUserId" type="java.lang.String">
+            <column name="UPDATE_USER_ID" length="20" />
+        </property>
+        <set name="secondMenuTs" inverse="true" lazy="false" order-by="sort asc">
+            <key>
+                <column name="PARENT_MENU_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.yzframework.model.FMenuLevel2" />
+        </set>
+    </class>
+</hibernate-mapping>

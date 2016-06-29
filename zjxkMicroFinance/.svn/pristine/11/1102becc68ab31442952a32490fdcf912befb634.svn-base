@@ -1,0 +1,31 @@
+package com.yzframework.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.dao.IDAO;
+import com.yzframework.service.JbpmUserGroupCallbackService;
+
+@Service("jbpmUserGroupCallbackService")
+public class JbpmUserGroupCallbackServiceImpl implements JbpmUserGroupCallbackService {
+
+	@Resource
+	private IDAO dao;
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> getUserAndRole(){
+		String sql = "select a.userid, b.roleid from z_user a, z_role b where a.roleid = b.id";
+		
+		return dao.findMapBySQL(sql);
+	}
+
+}

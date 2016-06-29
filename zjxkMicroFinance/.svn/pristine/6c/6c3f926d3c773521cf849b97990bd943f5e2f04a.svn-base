@@ -1,0 +1,97 @@
+package com.yzframework.controller;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.yzframework.base.Page;
+import com.yzframework.model.Morg;
+import com.yzframework.service.MOrgService;
+
+@Controller
+@RequestMapping("/views/Lookup")
+public class LookupController {
+
+	@Resource
+	private MOrgService mOrgService;
+//	@Resource
+//	private MtestplanService mtestplanService;
+//
+//	@Resource
+//	private MtestpaperService mtestpaperService;
+//	public void setMtestpaperService(MtestpaperService mtestpaperService) {
+//		this.mtestpaperService = mtestpaperService;
+//	}
+	
+    /**
+     * 企业ID，企业编码，企业名称查找带回
+     */
+    @RequestMapping("/org")
+    public ModelAndView company(Page page, Morg model) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        model.setStatus("1");
+        Page p = mOrgService.findPage(page, model);
+        mav.addObject("page", p);
+        mav.addObject("model", model);
+        mav.setViewName("LookupOrg");
+
+        return mav;
+    }
+
+//    /**
+//     * 测试方案名称查找带回
+//     */
+//    @RequestMapping("/testplan")
+//    public ModelAndView testplan(Page page, Mtestplan model) throws Exception {
+//        ModelAndView mav = new ModelAndView();
+//        Page p = mtestplanService.findPage02(page, model);
+//        mav.addObject("page", p);
+//        mav.addObject("model", model);
+//        mav.setViewName("LookupTestplan");
+//
+//        return mav;
+//    }
+//    
+//    /**
+//     * 试卷名称查找带回
+//     */
+//    @RequestMapping("/testpaper")
+//    public ModelAndView testpaper(Page page, Mtestpaper model) throws Exception {
+//        ModelAndView mav = new ModelAndView();
+//        model.setStatus("1");
+//        Page p = mtestpaperService.findPage01(page, new Mtestpaper());
+//		mav.addObject("page", p);
+//		
+//		mav.setViewName("LookupMtestpaper");
+//		return mav;
+//    }
+//    
+//    /**
+//     * 试卷名称查找带回(企业购买)
+//     */
+//    @RequestMapping("/testpaper4buy")
+//    public ModelAndView testpaper4buy(Page page, String companyid) throws Exception {
+//        ModelAndView mav = new ModelAndView();
+//        Page p = mtestpaperService.findPage4buy(page, companyid);
+//		mav.addObject("page", p);
+//		
+//		mav.setViewName("LookupMtestpaper");
+//		return mav;
+//    }
+//    
+//    /**
+//     * 试卷名称查找带回(测评方案)
+//     */
+//    @RequestMapping("/testpaper4plan")
+//    public ModelAndView testpaper4plan(Page page,String companyid, String testplanid) throws Exception {
+//        ModelAndView mav = new ModelAndView();
+//        Page p = mtestpaperService.testpaper4plan(page, companyid,testplanid);
+//		mav.addObject("page", p);
+//		
+//		mav.setViewName("LookupMtestpaper");
+//		return mav;
+//    }
+
+}

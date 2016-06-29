@@ -1,0 +1,180 @@
+package com.yzframework.model;
+
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.yzframework.base.Model;
+
+
+public class FMenuLevel1 extends Model implements java.io.Serializable {
+
+	// Fields
+
+	private Integer menuId;
+	private String menuName;
+	private Integer displayFlg;
+	private Integer endFlg;
+	private String imagePath;
+	private Integer sort;
+	private String moduleFlg;
+	private String moduleSort;
+	private Integer menuLevel;
+	private Timestamp createTime;
+	private String createUserId;
+	private Timestamp updateTime;
+	private String updateUserId;
+	private Set secondMenuTs = new HashSet(0);
+
+	// Constructors
+
+	/** default constructor */
+	public FMenuLevel1() {
+	}
+
+	/** minimal constructor */
+	public FMenuLevel1(Integer menuId, String menuName, Integer displayFlg,
+			Integer endFlg, Integer sort) {
+		this.menuId = menuId;
+		this.menuName = menuName;
+		this.displayFlg = displayFlg;
+		this.endFlg = endFlg;
+		this.sort = sort;
+	}
+
+	/** full constructor */
+	public FMenuLevel1(Integer menuId, String menuName, Integer displayFlg,
+			Integer endFlg, String imagePath, Integer sort, String moduleFlg,
+			String moduleSort, Integer menuLevel, Timestamp createTime,
+			String createUserId, Timestamp updateTime, String updateUserId,
+			Set secondMenuTs) {
+		this.menuId = menuId;
+		this.menuName = menuName;
+		this.displayFlg = displayFlg;
+		this.endFlg = endFlg;
+		this.imagePath = imagePath;
+		this.sort = sort;
+		this.moduleFlg = moduleFlg;
+		this.moduleSort = moduleSort;
+		this.menuLevel = menuLevel;
+		this.createTime = createTime;
+		this.createUserId = createUserId;
+		this.updateTime = updateTime;
+		this.updateUserId = updateUserId;
+		this.secondMenuTs = secondMenuTs;
+	}
+
+	// Property accessors
+
+	public Integer getMenuId() {
+		return this.menuId;
+	}
+
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
+
+	public String getMenuName() {
+		return this.menuName;
+	}
+
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+
+	public Integer getDisplayFlg() {
+		return this.displayFlg;
+	}
+
+	public void setDisplayFlg(Integer displayFlg) {
+		this.displayFlg = displayFlg;
+	}
+
+	public Integer getEndFlg() {
+		return this.endFlg;
+	}
+
+	public void setEndFlg(Integer endFlg) {
+		this.endFlg = endFlg;
+	}
+
+	public String getImagePath() {
+		return this.imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public Integer getSort() {
+		return this.sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	public String getModuleFlg() {
+		return this.moduleFlg;
+	}
+
+	public void setModuleFlg(String moduleFlg) {
+		this.moduleFlg = moduleFlg;
+	}
+
+	public String getModuleSort() {
+		return this.moduleSort;
+	}
+
+	public void setModuleSort(String moduleSort) {
+		this.moduleSort = moduleSort;
+	}
+
+	public Integer getMenuLevel() {
+		return this.menuLevel;
+	}
+
+	public void setMenuLevel(Integer menuLevel) {
+		this.menuLevel = menuLevel;
+	}
+
+	public Timestamp getCreateTime() {
+		return this.createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getCreateUserId() {
+		return this.createUserId;
+	}
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public Timestamp getUpdateTime() {
+		return this.updateTime;
+	}
+
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateUserId() {
+		return this.updateUserId;
+	}
+
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	public Set getSecondMenuTs() {
+		return this.secondMenuTs;
+	}
+
+	public void setSecondMenuTs(Set secondMenuTs) {
+		this.secondMenuTs = secondMenuTs;
+	}
+}

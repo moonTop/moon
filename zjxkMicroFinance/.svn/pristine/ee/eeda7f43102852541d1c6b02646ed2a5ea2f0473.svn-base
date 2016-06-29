@@ -1,0 +1,32 @@
+package com.yzframework.service;
+
+import com.yzframework.model.ZLoanForm;
+
+public interface ZLoanFormService {
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public ZLoanForm findById(String id) throws Exception;
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void save(ZLoanForm model) throws Exception;
+	
+	/**
+	 * 
+	 * <p></p>
+	 * @param mcompany
+	 * @return 
+	 * @throws Exception
+	 */
+	public void update(ZLoanForm model) throws Exception;
+}

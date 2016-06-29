@@ -1,0 +1,259 @@
+package com.yzframework.dao;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
+import com.yzframework.base.Model;
+import com.yzframework.base.Page;
+
+public abstract interface IDAO extends Serializable {
+
+
+	/**
+	 * 表主键查询
+	 * 
+	 * @param id 主键ID
+	 * @param clazz model 查询实体类型
+	 * 
+	 * @return 实体
+	 */
+	public <T> T findById(final String id, T t);
+
+	/**
+	 * 通过model实体,自动生成SQL条件查询
+	 * 
+	 * @param model 查询实体
+	 * 
+	 * @return 实体
+	 */
+	public <T> List<T> findByModel(Model model);
+	
+	/**
+	 * HQL语句查询前N条数据
+	 * 
+	 * @param hql 查询hql语句
+	 * @param top 查询件数
+	 * 
+	 * @return 实体
+	 */
+	public <T> List<T> findTopByHql(String hql,String top);
+
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql SQL查询语句
+	 * 
+	 * @return 实体集合
+	 */
+	public <T> List<T>  findTByHql(final String hql);
+	
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql SQL查询语句
+	 * 
+	 * @return 实体集合
+	 */
+	public <T> List<T> findTByHql(final String hql,Map<String, Object> parameters);
+	
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql HQL查询语句
+	 * @param T 查询结果存放实体
+	 * 
+	 * @return 实体集合
+	 */
+	public <T> List<T> findTByHql(final String hql, T t);
+	
+	/**
+	 * HQL查询,实体List返回
+	 * 
+	 * @param hql
+	 *            HQL查询语句
+	 * @param T
+	 *            查询结果存放实体
+	 * 
+	 * @return 实体集合
+	 */
+	public <T> List<T> findTByHql(final String hql,Map<String, Object> parameters, T t);
+	
+	/**
+	 * HQL查询COUNT
+	 * 
+	 * @param model HQL对象
+	 * 
+	 * @return 记录数
+	 */
+	public Long countByHql(final String model);
+	
+	/**
+	 * 获取最大值
+	 * 
+	 * @param hql SQL查询语句
+	 * 
+	 * @return 最大值
+	 */
+	public Integer  findMaxByHql(final String hql);
+	
+	/**
+	 * SQL查询,结果以MapList返回
+	 * 
+	 * @param sql SQL查询语句
+	 * 
+	 * @return 实体集合
+	 */
+	public List<Map<String,Object>> findMapBySQL(final String sql);
+
+	/**
+	 * SQL查询,结果以实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return 实体集合
+	 */
+	public <T> List<T> findTBySQL(final String sql,T t);
+
+	/**
+	 * SQL查询,结果以实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return 实体集合
+	 */
+	public <T> List<T> findTBySQL(final String sql, Map<String,Object> parameters, T t);
+
+	/**
+	 * SQL查询,结果以自定义Bean实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return 实体List
+	 */
+	public <T> List<T> findBeanBySQL(final String sql, T t);
+	
+	/**
+	 * SQL查询,结果以自定义Bean实体List返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return 实体List
+	 */
+	public <T> List<T> findBeanBySQL(final String sql, Map<String,Object> parameters, T t);
+	
+	/**
+	 * HQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param hql SQL查询语句
+	 * @param page Page对象
+	 * 
+	 * @return Page对象
+	 */
+	public Page findPageByHql(final String hql, final Page page);
+	
+	/**
+	 * HQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param hql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param page Page对象
+	 * 
+	 * @return Page对象
+	 */
+	public Page findPageByHql(final String hql,final Map<String,Object> parameters, final Page page);
+	
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param page Page对象
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return Page对象
+	 */
+	public <T> Page findPageBySQL(final String sql, final Page page, T t);
+
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param page Page对象
+	 * @param clazz 查询实体类型
+	 * 
+	 * @return Page对象
+	 */
+	public <T> Page findPageBySQL(final String sql, Map<String,Object> parameters, final Page page, T t);
+	
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param page Page对象
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return Page对象
+	 */
+	public <T> Page findPageBeanBySQL(final String sql, final Page page, T t);
+	
+	/**
+	 * SQL分页查询,结果以翻页对象Page返回
+	 * 
+	 * @param sql SQL查询语句
+	 * @param parameters 参数列表
+	 * @param page Page对象
+	 * @param clazz 查询结果自定义实体类型
+	 * 
+	 * @return Page对象
+	 */
+	public <T> Page findPageBeanBySQL(final String sql, Map<String,Object> parameters, final Page page, T t);
+	
+	/**
+	 * 插入数据
+	 * @param model 实体
+	 */
+	public void save(Model model);
+	
+	/**
+	 * 更新数据
+	 * @param model 更新实体
+	 * 
+	 */
+	public void update(Model model) throws Exception;
+
+	/**
+	 * 批量更新
+	 * @param ids 集合MAP
+	 */
+	public int batchUpdate(List<Map<String, Model>> ids) throws Exception;
+	
+	/**
+	 * 删除数据
+	 * @param model 实体
+	 */
+	public void delete(Model model) ;
+
+	/**
+	 * 批量删除
+	 * @param ids 主键数组
+	 * @param calzz 实体类型
+	 * 
+	 */
+	public <T> int batchDelete(String[] ids, T t) throws Exception;
+	
+	/**
+	 * 执行(插入,修改,删除)SQL语句
+	 * @param sql SQL语句
+	 * 
+	 * @return 受影响的数据件数
+	 */
+	public int executeSQL(final String sql);
+	
+}

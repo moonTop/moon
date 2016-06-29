@@ -1,0 +1,12 @@
+package com.yzframework.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface CommonService {
+	/**
+	 * 字典CODETYPE下拉列表
+	 * @return 字典列表
+	 */
+	public List<Map<String, Object>> codeListByCodeType(String codeType);
+}

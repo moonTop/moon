@@ -1,0 +1,29 @@
+package com.yzframework.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yzframework.dao.IDAO;
+import com.yzframework.model.FMenuLevel1;
+import com.yzframework.service.MenuService;
+
+@Service
+public class MenuServiceImpl implements MenuService {
+	
+	@Resource
+	private IDAO dao;
+	
+	public void setDao(IDAO dao) {
+		this.dao = dao;
+	}
+
+	@Override
+	public List<FMenuLevel1> findMenuList(FMenuLevel1 model) {
+		model.setASCString("sort");
+		return dao.findByModel(model);
+	}
+
+}

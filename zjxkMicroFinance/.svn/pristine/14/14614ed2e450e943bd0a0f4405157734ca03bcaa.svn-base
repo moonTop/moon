@@ -1,0 +1,147 @@
+package com.yzframework.model;
+
+import com.yzframework.base.Model;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Set;
+/**
+ * 客户材料
+ * @author yuzhuo
+ */
+public class ZCustomerinfo extends Model implements Serializable {
+
+    private static final long serialVersionUID = -1L;
+
+    public ZCustomerinfo(){}
+
+    /// 自定义区域 开始
+
+    /// 自定义区域 结束
+
+    /// 工具生成区域 开始
+    private String id;
+    public String getID() {
+        return id;
+    }
+    public void setID(String id) {
+        this.firePropertyChange("id");
+        this.id = id;
+    }
+    private String customerno;
+    public String getCUstomerno() {
+        return customerno;
+    }
+    public void setCUstomerno(String customerno) {
+        this.firePropertyChange("customerno");
+        this.customerno = customerno;
+    }
+    private String loantype;
+    public String getLOantype() {
+        return loantype;
+    }
+    public void setLOantype(String loantype) {
+        this.firePropertyChange("loantype");
+        this.loantype = loantype;
+    }
+    private String idcard;
+    public String getIDcard() {
+        return idcard;
+    }
+    public void setIDcard(String idcard) {
+        this.firePropertyChange("idcard");
+        this.idcard = idcard;
+    }
+    private String name;
+    public String getNAme() {
+        return name;
+    }
+    public void setNAme(String name) {
+        this.firePropertyChange("name");
+        this.name = name;
+    }
+    private String age;
+    public String getAGe() {
+        return age;
+    }
+    public void setAGe(String age) {
+        this.firePropertyChange("age");
+        this.age = age;
+    }
+    private String address;
+    public String getADdress() {
+        return address;
+    }
+    public void setADdress(String address) {
+        this.firePropertyChange("address");
+        this.address = address;
+    }
+    private String companyname;
+    public String getCOmpanyname() {
+        return companyname;
+    }
+    public void setCOmpanyname(String companyname) {
+        this.firePropertyChange("companyname");
+        this.companyname = companyname;
+    }
+    private String description;
+    public String getDEscription() {
+        return description;
+    }
+    public void setDEscription(String description) {
+        this.firePropertyChange("description");
+        this.description = description;
+    }
+    private String status;
+    public String getSTatus() {
+        return status;
+    }
+    public void setSTatus(String status) {
+        this.firePropertyChange("status");
+        this.status = status;
+    }
+    private String createid;
+    public String getCReateid() {
+        return createid;
+    }
+    public void setCReateid(String createid) {
+        this.firePropertyChange("createid");
+        this.createid = createid;
+    }
+    private Timestamp createtime;
+    public Timestamp getCReatetime() {
+        return createtime;
+    }
+    public void setCReatetime(Timestamp createtime) {
+        this.firePropertyChange("createtime");
+        this.createtime = createtime;
+    }
+    private String updateid;
+    public String getUPdateid() {
+        return updateid;
+    }
+    public void setUPdateid(String updateid) {
+        this.firePropertyChange("updateid");
+        this.updateid = updateid;
+    }
+    private Timestamp updatetime;
+    public Timestamp getUPdatetime() {
+        return updatetime;
+    }
+    public void setUPdatetime(Timestamp updatetime) {
+        this.firePropertyChange("updatetime");
+        this.updatetime = updatetime;
+    }
+    private Set<ZLoanform> zloanforms;
+    public Set<ZLoanform> getZLoanforms() {
+        return zloanforms;
+    }
+    public void setZLoanforms(Set<ZLoanform> zloanforms) {
+        this.firePropertyChange("zloanforms");
+        this.zloanforms = zloanforms;
+    }
+
+    public String toJSONString(){
+        return "{\"id\":\"" + id + "\",\"customerno\":\"" + customerno + "\",\"loantype\":\"" + loantype + "\",\"idcard\":\"" + idcard + "\",\"name\":\"" + name + "\",\"age\":\"" + age + "\",\"address\":\"" + address + "\",\"companyname\":\"" + companyname + "\",\"description\":\"" + description + "\",\"status\":\"" + status + "\",\"createid\":\"" + createid + "\",\"createtime\":\"" + createtime + "\",\"updateid\":\"" + updateid + "\",\"updatetime\":\"" + updatetime + "\"}";
+    }
+    /// 工具生成区域 结束
+}

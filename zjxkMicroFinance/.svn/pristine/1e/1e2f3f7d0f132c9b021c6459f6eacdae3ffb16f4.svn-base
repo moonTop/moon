@@ -1,0 +1,136 @@
+package com.yzframework.base;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.drools.core.util.StringUtils;
+import org.drools.runtime.StatefulKnowledgeSession;
+import org.drools.runtime.process.ProcessInstance;
+import org.jbpm.process.workitem.wsht.LocalHTWorkItemHandler;
+import org.jbpm.task.Comment;
+import org.jbpm.task.Status;
+import org.jbpm.task.Task;
+import org.jbpm.task.User;
+import org.jbpm.task.query.TaskSummary;
+import org.jbpm.task.service.ContentData;
+import org.jbpm.task.service.local.LocalTaskService;
+import org.jbpm.task.utils.ContentMarshallerHelper;
+import org.jbpm.task.utils.OnErrorAction;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class JbpmBase extends BaseController {
+    @Resource
+    private StatefulKnowledgeSession ksession;
+    
+    @Resource
+    private LocalTaskService taskService;
+    
+	/**
+	 * 启动流程
+	 * 
+	 * @param processId 流程ID
+	 * @param userId 流程创建者ID
+	 * @param businessId 业务ID
+	 * 
+	 * @return 流程实例ID
+	 */
+    protected long createAndStartProcess(String processId, String userId, String businessId, String commentText) {
+
+		LocalHTWorkItemHandler localHTWorkItemHandler = new LocalHTWorkItemHandler(taskService, ksession,OnErrorAction.RETHROW);
+        localHTWorkItemHandler.connect();
+        ksession.getWorkItemManager().registerWorkItemHandler("Human Task", localHTWorkItemHandler);
+
+        Map<String, Object> processVariables = new HashMap<String, Object>();
+        processVariables.put("businessId", businessId);
+        processVariables.put("isWithdraw", false);
+        ProcessInstance processInstance = (ProcessInstance)ksession.startProcess(processId, processVariables);
+        
+        List<Status> statusList = new ArrayList<Status>();
+        statusList.add(Status.Ready);
+        List<TaskSummary> tasks = taskService.getTasksByStatusByProcessId(processInstance.getId(), statusList, "en-UK");
+
+        // 开始并结束第一个节点
+        long taskId = tasks.get(0).getId();
+        Task task = taskService.getTask(taskId);
+        
+        taskService.start(taskId, userId);
+        
+        // 流程发起者 意见
+        if(!StringUtils.isEmpty(commentText)) {
+            Comment comment = new Comment();
+            comment.setText(commentText);
+            comment.setAddedBy(new User(userId));
+            comment.setAddedAt(new Date(System.currentTimeMillis()));
+            task.getTaskData().addComment(comment);
+        }
+        taskService.complete(tasks.get(0).getId(), userId, null);
+        
+        return processInstance.getId();
+    }
+    
+	/**
+	 * 开始并结束任务
+	 * 
+	 * @param taskId 任务ID
+	 * @param userId 参与者ID
+	 * @param commentText 审批意见
+	 * 
+	 * @return 流程实例ID
+	 */
+    protected long startAndCompleteTask(long taskId, String userId, String commentText, boolean isWithdraw) {
+
+        Task task = taskService.getTask(taskId);
+        
+        // 审批意见
+        if(!StringUtils.isEmpty(commentText)) {
+            Comment comment = new Comment();
+            comment.setText(commentText);
+            comment.setAddedBy(new User(userId));
+            comment.setAddedAt(new Date(System.currentTimeMillis()));
+            task.getTaskData().addComment(comment);
+        }
+
+        taskService.start(task.getId(), userId);
+        
+        Map<String, Object> results = new HashMap<String, Object>();
+        results.put("isWithdraw", isWithdraw);
+        
+        ContentData contentData = ContentMarshallerHelper.marshal(results, null);
+        taskService.complete(task.getId(), userId, contentData);
+        
+        return task.getTaskData().getProcessInstanceId();
+    }
+    
+	/**
+	 * 动态指定 下一个任务参与者
+	 * 
+	 * @param processInstanceId 流程实例ID
+	 * @param userId 参与者ID
+	 */
+    protected void claimNextTask(long processInstanceId, String userId){
+    	if (StringUtils.isEmpty(userId)){
+    		return;
+    	}
+        // 动态指定下一个节点的参与者
+        List<Status> statusList = new ArrayList<Status>();
+        statusList.add(Status.Ready);
+        List<TaskSummary> nextTasks = taskService.getTasksByStatusByProcessId(processInstanceId, statusList, "en-UK");
+        Task nextTask = taskService.getTask(nextTasks.get(0).getId());
+        taskService.claim(nextTask.getId(), userId);
+    }
+    
+    /**
+     * 终止流程
+     * 
+     * @param processInstanceId 流程实例ID
+     */
+    protected void abortProcess(long processInstanceId){
+    	ksession.abortProcessInstance(processInstanceId);
+    }
+}
